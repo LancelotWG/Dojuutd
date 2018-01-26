@@ -1,0 +1,98 @@
+package com.ieee.atml.test.resource;
+
+import java.util.ArrayList;
+
+public class PinDenfinitionMap {
+	public final static ArrayList<PinClass> pinX1List = new ArrayList<>();
+	public final static ArrayList<PinClass> pinX2List = new ArrayList<>();
+	public PinDenfinitionMap(){
+		
+			
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.analog, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.ground, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX1List.add(new PinClass(PinType.digital, PinFlow.output));
+		pinX2List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX2List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX2List.add(new PinClass(PinType.analog, PinFlow.input));
+		pinX2List.add(new PinClass(PinType.ground, PinFlow.input));
+		pinX2List.add(new PinClass(PinType.ground, PinFlow.input));
+		pinX2List.add(new PinClass(PinType.ground, PinFlow.input));
+	}
+}

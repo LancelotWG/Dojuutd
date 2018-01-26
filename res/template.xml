@@ -1,0 +1,16 @@
+<template xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:c="urn:IEEE-1671:2009.03:Common" 
+xmlns:hc="urn:IEEE-1671:2009.03:HardwareCommon" 
+xmlns:td="urn:IEEE-1671.1:2009.01:TestDescription" 
+xmlns:exttsf="ExtTSFLib" 
+xmlns:tsf="http://www.ieee.org/1641/tsf" 
+xmlns:te="urn:IEEE-1671:2009.03:TestEquipment" 
+xmlns:hxtsf="http://www.ieee.org/1641/HX" 
+xmlns:std="http://www.ieee.org/1641" 
+xmlns:ta="urn:IEEE-1671.5:2009.03:TestAdapterDescription" 
+xsi:schemaLocation="urn:IEEE-1671.5:2009.03:TestAdapterDescription TestAdapterDescription.xsd "
+xmlns:tc="urn:IEEE-1671.4:2009.03:TestConfiguration"
+xmlns:uut="urn:IEEE-1671.3:2009.03:UUTDescription"
+xmlns:ts="urn:IEEE-1671.6:2009.03:TestStationDescription"
+xmlns:inst="urn:IEEE-1671.2:2009.03:InstrumentDescription">
+</template>

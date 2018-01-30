@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -21,6 +22,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,6 +37,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.html.HTMLEditorKit;
@@ -57,6 +61,34 @@ public class ATMLTest implements FileTypeValidation {
 	// String[] testItem = new String[] { "ConfigureTest", "UUTTest",
 	// "AdapterTest", "StationTest",
 	// "SignalTest","InstrumentTest","TestDescriptionTest" };
+
+	// 菜单栏
+	JMenuBar menubar = new JMenuBar();
+	// 菜单项
+	JMenu menuFile = new JMenu("文件");
+	JMenu menuOperate = new JMenu("操作");
+	JMenu menuSemanticTest = new JMenu("语义检测");
+	// 子菜单
+	JMenuItem menuGrammarTest = new JMenuItem("语法检测");
+	JMenuItem menuTestDescriptionTest = new JMenuItem(StringUtil.testDescriptionTest);
+	JMenuItem menuInstrumentTest = new JMenuItem(StringUtil.instrumentTest);
+	JMenuItem menuUUTTest = new JMenuItem(StringUtil.UUTTest);
+	JMenuItem menuConfigurationTest = new JMenuItem(StringUtil.configurationTest);
+	JMenuItem menuAdapterTest = new JMenuItem(StringUtil.adapterTest);
+	JMenuItem menuStationTest = new JMenuItem(StringUtil.stationTest);
+	JMenuItem menuResultTest = new JMenuItem(StringUtil.resultTest);
+	JMenuItem menuTestSignalTest = new JMenuItem(StringUtil.testSignalTest);
+
+	// 测试标准文本
+	JLabel testStandardLabel = new JLabel("ATML IEEE Std 1671 Base Standard");
+
+	// 程序运行状态
+	JLabel programRunningStateLabel = new JLabel(StringUtil.programRunningStateItem[0]);
+
+	// 西工大Logo
+	ScaleIcon NWPULogo = new ScaleIcon(new ImageIcon(R.class.getResource("/nwpu.png")));
+	JLabel NWPULogoLabel = new JLabel();
+
 	JLabel TestItemLabel = new JLabel("测试项目：");
 	JComboBox<String> TestItemChooser = new JComboBox<>(StringUtil.testItem);
 	// 静态文本
@@ -99,7 +131,7 @@ public class ATMLTest implements FileTypeValidation {
 	ImageIcon logo = new ImageIcon(R.class.getResource("/logo.png"));
 	// **********map图片*************
 	// ScaleIcon mapIcon = new ScaleIcon(new ImageIcon("ico/map.jpg"));
-	ScaleIcon mapIcon = new ScaleIcon(new ImageIcon(R.class.getResource("/CATIC.jpg")));
+	ScaleIcon mapIcon = new ScaleIcon(new ImageIcon(R.class.getResource("/top.jpg")));
 	// ImageIcon mapIcon = new ImageIcon("ico/map.jpg");
 	// map框
 	JLabel mapLabel = new JLabel();
@@ -162,7 +194,7 @@ public class ATMLTest implements FileTypeValidation {
 		textField.setComponentPopupMenu(popupMenu);
 	}
 
-	private void addErrorField(JFrame frame) {
+	private void addErrorField(Box box) {
 		// 测试结果边框设置
 		Border lb = BorderFactory.createLineBorder(Color.BLACK, 1);
 		TitledBorder tb = new TitledBorder(lb, "测试结果：", TitledBorder.LEFT, TitledBorder.TOP,
@@ -179,7 +211,8 @@ public class ATMLTest implements FileTypeValidation {
 		JPanel errorPanel = new JPanel();
 		errorPanel.setBorder(tb);
 		errorPanel.add(taJsp);
-		frame.add(errorPanel, BorderLayout.SOUTH);
+		// frame.add(errorPanel, BorderLayout.SOUTH);
+		box.add(errorPanel);
 		errorOutput.setText("");
 	}
 
@@ -203,10 +236,8 @@ public class ATMLTest implements FileTypeValidation {
 		f.setIconImage(logo.getImage());
 		// 布局
 		// map图片设置
-
 		mapLabel.setIcon(mapIcon);
-
-		mapLabel.setPreferredSize(new Dimension(745, 90));
+		mapLabel.setPreferredSize(new Dimension(1000, 10));
 		// map图片布局
 		JPanel mapPanel = new JPanel();
 		mapPanel.add(mapLabel);
@@ -219,8 +250,66 @@ public class ATMLTest implements FileTypeValidation {
 		topPanel.setAlignmentX(1);
 		topPanel.add(mapPanel);
 		topPanel.add(testItemPanel);
-
 		f.add(topPanel, BorderLayout.NORTH);
+
+		// 添加才断蓝
+		f.setJMenuBar(menubar);
+		menubar.add(menuFile);
+		menubar.add(menuOperate);
+
+		menuOperate.add(menuSemanticTest);
+		menuOperate.addSeparator();
+		menuOperate.add(menuGrammarTest);
+
+		menuSemanticTest.add(menuTestDescriptionTest);
+		menuSemanticTest.addSeparator();
+		menuSemanticTest.add(menuTestDescriptionTest);
+		menuSemanticTest.addSeparator();
+		menuSemanticTest.add(menuInstrumentTest);
+		menuSemanticTest.addSeparator();
+		menuSemanticTest.add(menuUUTTest);
+		menuSemanticTest.addSeparator();
+		menuSemanticTest.add(menuConfigurationTest);
+		menuSemanticTest.addSeparator();
+		menuSemanticTest.add(menuAdapterTest);
+		menuSemanticTest.addSeparator();
+		menuSemanticTest.add(menuStationTest);
+		menuSemanticTest.addSeparator();
+		menuSemanticTest.add(menuResultTest);
+		menuSemanticTest.addSeparator();
+		menuSemanticTest.add(menuTestSignalTest);
+
+		// 静态文本
+		Box rightPanel = Box.createVerticalBox();
+		rightPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+		JPanel testStandardPanel = new JPanel();
+		testStandardLabel.setPreferredSize(new Dimension(200, 20));
+		testStandardPanel.add(testStandardLabel);
+		rightPanel.add(testStandardPanel);
+		f.add(rightPanel, BorderLayout.EAST);
+
+		// 状态栏
+		// Box bottomPanel = Box.createHorizontalBox();
+		Box bottomPanel = Box.createHorizontalBox();
+		bottomPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+		JPanel statusPanel = new JPanel();
+		JPanel nullPanel = new JPanel();
+		JPanel NWPUPanel = new JPanel();
+		statusPanel.add(programRunningStateLabel);
+
+		JLabel nullLabel = new JLabel();
+		nullLabel.setPreferredSize(new Dimension(600, 20));
+		nullPanel.add(nullLabel);
+
+		NWPULogoLabel.setIcon(NWPULogo);
+		NWPULogoLabel.setPreferredSize(new Dimension(100, 40));
+		NWPUPanel.add(NWPULogoLabel);
+
+		bottomPanel.add(statusPanel);
+		bottomPanel.add(nullPanel);
+		bottomPanel.add(NWPUPanel);
+		f.add(bottomPanel, BorderLayout.SOUTH);
+
 		// configure路径布局
 		JPanel configurePanel = new JPanel();
 		addDirComponent(configurePanel, fileConfigureDirLabel, fileConfigureDir);
@@ -265,73 +354,101 @@ public class ATMLTest implements FileTypeValidation {
 		// 开始测试按钮布局（无开始检测）
 		// 测试区布局
 		Box checkPanel = Box.createVerticalBox();
-		checkPanel.add(configurePanel);
-		checkPanel.add(UUTPanel);
-		checkPanel.add(adapterPanel);
-		checkPanel.add(stationPanel);
-		checkPanel.add(descriptionPanel);
-		checkPanel.add(STDBSCPanel);
-		checkPanel.add(STDTSFLibPanel);
-		checkPanel.add(ExtTSFLibPanel);
-		checkPanel.add(instPanel);
-		checkPanel.add(singleInstPanel);
-		checkPanel.add(resultPanel);
-		checkPanel.add(xmlSpyPanel);
+		checkPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+		Box inputPanel = Box.createVerticalBox();
+		inputPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+
+		inputPanel.add(configurePanel);
+		inputPanel.add(UUTPanel);
+		inputPanel.add(adapterPanel);
+		inputPanel.add(stationPanel);
+		inputPanel.add(descriptionPanel);
+		inputPanel.add(STDBSCPanel);
+		inputPanel.add(STDTSFLibPanel);
+		inputPanel.add(ExtTSFLibPanel);
+		inputPanel.add(instPanel);
+		inputPanel.add(singleInstPanel);
+		inputPanel.add(resultPanel);
+		inputPanel.add(xmlSpyPanel);
+		inputPanel.add(startPanel);
+		
+		checkPanel.add(inputPanel);
 		// checkPanel.add(startWithOutTestPanel);
-		checkPanel.add(startPanel);
-		f.add(checkPanel);
+		// checkPanel.add(startPanel);
+
+		// 测试结果边框设置
+		Border lb = BorderFactory.createLineBorder(Color.BLACK, 1);
+		TitledBorder tb = new TitledBorder(lb, "测试结果：", TitledBorder.LEFT, TitledBorder.TOP,
+				new Font("StSong", Font.BOLD, 14), Color.BLACK);
+		errorOutput.setPreferredSize(new Dimension(730, 220));
+		errorOutput.setEditable(false);
+		// 设置HTML解析器
+		HTMLEditorKit htmlEdit = new HTMLEditorKit();
+		errorOutput.setEditorKit(htmlEdit);
+		errorOutput.setContentType("text/html");
+
+		JScrollPane taJsp = new JScrollPane(errorOutput);
+		JPanel errorPanel = new JPanel();
+		errorPanel.setBorder(tb);
+		errorPanel.add(taJsp);
+		// frame.add(errorPanel, BorderLayout.SOUTH);
+		checkPanel.add(errorPanel);
+		errorOutput.setText("");
+
+		// addErrorField(checkPanel);
+		f.add(checkPanel, BorderLayout.CENTER);
 		// 信息输出框
-		addErrorField(f);
+
 		// 测试项目切换时间响应
 		ActionListener changeTestItem = e -> {
 			startTestButton.setVisible(true);
 			String testItem = TestItemChooser.getSelectedItem().toString();
 			System.out.println(testItem);
-			checkPanel.removeAll();
+			inputPanel.removeAll();
 			clearTextField();
 			if (testItem.equals(StringUtil.configurationTest)) {
-				checkPanel.add(configurePanel);
-				checkPanel.add(UUTPanel);
-				checkPanel.add(adapterPanel);
-				checkPanel.add(stationPanel);
-				checkPanel.add(descriptionPanel);
-				checkPanel.add(xmlSpyPanel);
-				checkPanel.add(startPanel);
+				inputPanel.add(configurePanel);
+				inputPanel.add(UUTPanel);
+				inputPanel.add(adapterPanel);
+				inputPanel.add(stationPanel);
+				inputPanel.add(descriptionPanel);
+				inputPanel.add(xmlSpyPanel);
+				// inputPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.UUTTest)) {
-				checkPanel.add(UUTPanel);
-				checkPanel.add(xmlSpyPanel);
-				checkPanel.add(startPanel);
+				inputPanel.add(UUTPanel);
+				inputPanel.add(xmlSpyPanel);
+				// inputPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.adapterTest)) {
-				checkPanel.add(UUTPanel);
-				checkPanel.add(adapterPanel);
-				checkPanel.add(stationPanel);
-				checkPanel.add(xmlSpyPanel);
-				checkPanel.add(startPanel);
+				inputPanel.add(UUTPanel);
+				inputPanel.add(adapterPanel);
+				inputPanel.add(stationPanel);
+				inputPanel.add(xmlSpyPanel);
+				// inputPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.stationTest)) {
-				checkPanel.add(stationPanel);
-				checkPanel.add(instPanel);
-				checkPanel.add(xmlSpyPanel);
-				checkPanel.add(startPanel);
+				inputPanel.add(stationPanel);
+				inputPanel.add(instPanel);
+				inputPanel.add(xmlSpyPanel);
+				// inputPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.testSignalTest)) {
-				checkPanel.add(STDBSCPanel);
-				checkPanel.add(STDTSFLibPanel);
-				checkPanel.add(ExtTSFLibPanel);
-				checkPanel.add(xmlSpyPanel);
-				checkPanel.add(startPanel);
+				inputPanel.add(STDBSCPanel);
+				inputPanel.add(STDTSFLibPanel);
+				inputPanel.add(ExtTSFLibPanel);
+				inputPanel.add(xmlSpyPanel);
+				// inputPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.instrumentTest)) {
-				checkPanel.add(singleInstPanel);
-				checkPanel.add(xmlSpyPanel);
-				checkPanel.add(startPanel);
+				inputPanel.add(singleInstPanel);
+				inputPanel.add(xmlSpyPanel);
+				// inputPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.testDescriptionTest)) {
-				checkPanel.add(descriptionPanel);
-				checkPanel.add(UUTPanel);
-				checkPanel.add(xmlSpyPanel);
-				checkPanel.add(startPanel);
+				inputPanel.add(descriptionPanel);
+				inputPanel.add(UUTPanel);
+				inputPanel.add(xmlSpyPanel);
+				// inputPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.resultTest)) {
-				checkPanel.add(resultPanel);
-				checkPanel.add(xmlSpyPanel);
-				startTestButton.setVisible(false);
-				checkPanel.add(startPanel);
+				inputPanel.add(resultPanel);
+				inputPanel.add(xmlSpyPanel);
+				//startTestButton.setVisible(false);
+				// inputPanel.add(startPanel);
 			}
 			f.repaint();
 			f.validate();
@@ -664,20 +781,21 @@ public class ATMLTest implements FileTypeValidation {
 		});
 		// 移除SignalDir
 		// checkPanel.remove(2);
-		checkPanel.remove(5);
-		checkPanel.remove(5);
-		checkPanel.remove(5);
-		checkPanel.remove(5);
-		checkPanel.remove(5);
+		inputPanel.remove(5);
+		inputPanel.remove(5);
+		inputPanel.remove(5);
+		inputPanel.remove(5);
+		inputPanel.remove(5);
 		f.pack();
 		// 设置窗口居中
 		f.setLocationRelativeTo(null);
 		f.setVisible(true);
-		checkPanel.removeAll();
-		checkPanel.add(descriptionPanel);
-		checkPanel.add(UUTPanel);
-		checkPanel.add(xmlSpyPanel);
-		checkPanel.add(startPanel);
+		inputPanel.removeAll();
+		inputPanel.add(descriptionPanel);
+		inputPanel.add(UUTPanel);
+		inputPanel.add(xmlSpyPanel);
+		// inputPanel.add(startPanel);
+		//inputPanel.add(errorPanel);
 	}
 
 	private String TestDescription() {

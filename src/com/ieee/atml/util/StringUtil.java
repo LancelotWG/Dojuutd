@@ -9,6 +9,7 @@ public interface StringUtil {
 	public static final String testSignal = "Signal";
 	public static final String instrument = "InstrumentDescription";
 	public static final String result = "TestResults";
+	public static final String wireList = "WireLists";
 
 	public static final String configurationTest =  "TestConfigurationTest";
 	public static final String adapterTest = "TestAdapterTest";
@@ -20,5 +21,5 @@ public interface StringUtil {
 	public static final String resultTest = "TestResultTest";
 	public static final String wireListTest = "WireListTest";
 	public static final String[] testItem = new String[] { testDescriptionTest, instrumentTest, UUTTest, configurationTest,  adapterTest, stationTest,
-			resultTest, testSignalTest, wireListTest};
+			resultTest, wireListTest ,testSignalTest};
 }

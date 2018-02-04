@@ -28,12 +28,7 @@ public class WireListReader extends InfoWrite{
 		WireListReader test = new WireListReader();
 		test.Virtualmain(wireListPath, uutPath, stationPath, adapterPath);
 	}
-	/************************************************≤‚ ‘***************************************************************/
-	
-	WireListReader() {
-		
-	}
-	
+	/************************************************≤‚ ‘***************************************************************/	
 	public void Virtualmain(String wirelistpath, String uutpath, String stationpath, String adapterpath) {
 		wireListDocument = readXML(wirelistpath);
 		uutDocument = readXML(uutpath);
@@ -208,6 +203,10 @@ public class WireListReader extends InfoWrite{
 			}
 		}
 		return document;
+	}
+	
+	public String getInfoHTML() {
+		return infoHTML;
 	}
 
 }

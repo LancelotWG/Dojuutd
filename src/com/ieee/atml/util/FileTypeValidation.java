@@ -58,7 +58,11 @@ public interface FileTypeValidation {
 				if (type.equals(fileType)) {
 					return true;
 				}
-			}
+			}else if (fileType.equals(StringUtil.wireList)) {
+					if (type.equals(fileType)) {
+						return true;
+					}
+				}
 		} else {
 			System.out.println("File " + fileType + " is not exist!");
 			// error += ("File " + configuration + " is not exist!\n");

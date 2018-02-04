@@ -45,6 +45,7 @@ import com.ieee.atml.test.item.TDReader;
 import com.ieee.atml.test.item.TestSignalReader;
 import com.ieee.atml.test.item.TestStationReader;
 import com.ieee.atml.test.item.UUTDReader;
+import com.ieee.atml.test.item.WireListReader;
 import com.ieee.atml.util.FileFilterBySuffix;
 import com.ieee.atml.util.FileTypeValidation;
 import com.ieee.atml.util.R;
@@ -336,13 +337,15 @@ public class ATMLTest implements FileTypeValidation {
 				checkPanel.add(UUTPanel);
 				checkPanel.add(xmlSpyPanel);
 				checkPanel.add(startPanel);
-			} else if (testItem.equals(StringUtil.resultTest)) {
-				checkPanel.add(resultPanel);
-				checkPanel.add(xmlSpyPanel);
-				startTestButton.setVisible(false);
-				checkPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.wireListTest)) {
 				checkPanel.add(wireListPanel);
+				checkPanel.add(UUTPanel);
+				checkPanel.add(stationPanel);
+				checkPanel.add(adapterPanel);
+				checkPanel.add(xmlSpyPanel);
+				checkPanel.add(startPanel);
+			} else if (testItem.equals(StringUtil.resultTest)) {
+				checkPanel.add(resultPanel);
 				checkPanel.add(xmlSpyPanel);
 				startTestButton.setVisible(false);
 				checkPanel.add(startPanel);
@@ -452,6 +455,13 @@ public class ATMLTest implements FileTypeValidation {
 						JOptionPane.showMessageDialog(f, "请输入有效的" + StringUtil.result + "类型文件", "文件类型错误",
 								JOptionPane.ERROR_MESSAGE);
 					}
+				} else if (e.getSource() == browseWireListItem) {
+					if (fileTypeValidation(path, StringUtil.wireList)) {
+						fileWireListDir.setText(path);
+					} else {
+						JOptionPane.showMessageDialog(f, "请输入有效的" + StringUtil.wireList + "类型文件", "文件类型错误",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		};
@@ -460,6 +470,7 @@ public class ATMLTest implements FileTypeValidation {
 		addPopMenu(browseAdapterPop, browseAdapterItem, fileAdapterDir, openFlie);
 		addPopMenu(browseStationPop, browseStationItem, fileStationDir, openFlie);
 		addPopMenu(browseDescriptionPop, browseDescriptionItem, fileDescriptionDir, openFlie);
+		addPopMenu(browseWireListPop, browseWireListItem, fileWireListDir, openFlie);
 		addPopMenu(browseSTDBSCPop, browseSTDBSCItem, fileSTDBSCDir, openFlie);
 		addPopMenu(browseSTDTSFLibPop, browseSTDTSFLibItem, fileSTDTSFLibDir, openFlie);
 		addPopMenu(browseExtTSFLibPop, browseExtTSFLibItem, fileExtTSFLibDir, openFlie);
@@ -530,7 +541,17 @@ public class ATMLTest implements FileTypeValidation {
 				} else {
 					StartXmlSpy(fileXmlSpyDir.getText(), fileSTDBSCDir.getText());
 				}
-			}
+			} else if (testItem.equals(StringUtil.wireListTest)) {
+				if (fileUUTDir.getText().equals("") || fileAdapterDir.getText().equals("")
+						|| fileStationDir.getText().equals("") ||fileWireListDir.getText().equals("") 
+						|| fileXmlSpyDir.getText().equals("")) {
+					JOptionPane.showMessageDialog(f, "请确保路径填充完整！", "警告", JOptionPane.WARNING_MESSAGE);
+				} else {
+
+					StartXmlSpy(fileXmlSpyDir.getText(), fileUUTDir.getText(), fileAdapterDir.getText(),
+							fileStationDir.getText(), fileWireListDir.getText());
+				}
+			} 
 
 		};
 		// XMLSpy按钮响应设置
@@ -592,6 +613,15 @@ public class ATMLTest implements FileTypeValidation {
 					JOptionPane.showMessageDialog(f, "请确保路径填充完整！", "警告", JOptionPane.WARNING_MESSAGE);
 				} else {
 					errorInfo = TestDescription();
+					JOptionPane.showMessageDialog(f, "测试完成");
+				}
+			} else if (testItem.equals(StringUtil.wireListTest)) {
+				if (fileUUTDir.getText().equals("") || fileAdapterDir.getText().equals("")
+						|| fileStationDir.getText().equals("") ||fileWireListDir.getText().equals("") 
+						|| fileXmlSpyDir.getText().equals("")) {
+					JOptionPane.showMessageDialog(f, "请确保路径填充完整！", "警告", JOptionPane.WARNING_MESSAGE);
+				} else {
+					errorInfo = wireListTest();
 					JOptionPane.showMessageDialog(f, "测试完成");
 				}
 			}
@@ -746,6 +776,19 @@ public class ATMLTest implements FileTypeValidation {
 			e.printStackTrace();
 		}
 	}
+	
+	private void StartXmlSpy(String xmlSpyPath, String filepath1, String filepath2, String filepath3, String filepath4) {
+		// TODO 自动生成的方法存根
+		Runtime runtime = Runtime.getRuntime();
+		String[] commandArgs = { xmlSpyPath, filepath1, filepath2, filepath3, filepath4};
+		try {
+			Process process = runtime.exec(commandArgs);
+
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+	}
 
 	private void StartXmlSpy(String xmlSpyPath, String filepath1, String filepath2, String filepath3, String filepath4,
 			String filepath5) {
@@ -845,6 +888,12 @@ public class ATMLTest implements FileTypeValidation {
 		AdapterReader adapterReader = new AdapterReader();
 		adapterReader.adapterReader(fileAdapterDir.getText(), fileUUTDir.getText(), fileStationDir.getText());
 		return adapterReader.getInfoHTML();
+	}
+	
+	private String wireListTest() {
+		WireListReader WireListReader = new WireListReader();
+		WireListReader.Virtualmain(fileWireListDir.getText(), fileUUTDir.getText(), fileStationDir.getText(), fileAdapterDir.getText());
+		return WireListReader.getInfoHTML();
 	}
 
 	private String stationTest() {

@@ -21,14 +21,15 @@ import com.ieee.atml.util.XPathStandard;
 
 public class StationReader extends InfoWrite implements XPathStandard {
 	private static final String stationDir = "TestStationDescriptionDemoV6.xml";
-	//private static final String regEX = "(?:\\/(?:[a-zA-Z]{0,}:){0,1}[a-zA-Z]{0,}(?:(?:\\/){0,1}\\[@[a-zA-Z]{0,}=(['\"])[\\u4e00-\\u9fa5\\w\\+-]{0,}\\1\\]){0,}){1,}";
+	// private static final String regEX =
+	// "(?:\\/(?:[a-zA-Z]{0,}:){0,1}[a-zA-Z]{0,}(?:(?:\\/){0,1}\\[@[a-zA-Z]{0,}=(['\"])[\\u4e00-\\u9fa5\\w\\+-]{0,}\\1\\]){0,}){1,}";
 	// private List<ArrayList<String>> netWorkList = new ArrayList<>();
 
 	private List<String> unStandardXpath = new ArrayList<String>();
 	private List<String> standardXpath = new ArrayList<String>();
 	private List<String> unExistXpath = new ArrayList<String>();
 	private ArrayList<String> errorXpath = new ArrayList<String>();
-	//private String documentID = "";
+	// private String documentID = "";
 
 	/*
 	 * public List<ArrayList<String>> getNetWorkList() { return netWorkList; }
@@ -36,8 +37,8 @@ public class StationReader extends InfoWrite implements XPathStandard {
 
 	private org.dom4j.Document stationDocument;
 	private static final String station = "TestStationDescription";
-	
-	public StationReader(ArrayList<String> testItem){
+
+	public StationReader(ArrayList<String> testItem) {
 		this.testItem = testItem;
 	}
 
@@ -50,7 +51,7 @@ public class StationReader extends InfoWrite implements XPathStandard {
 		StationReader test = new StationReader(new ArrayList<String>());
 		test.stationReader(stationDir);
 	}
-	
+
 	public String[] stationReader(String stationDir) {
 		// TODO 自动生成的方法存根
 		// error += "#####################File Path######################\n";
@@ -73,13 +74,13 @@ public class StationReader extends InfoWrite implements XPathStandard {
 		initInfoMap();
 		XMLNetWorkList2NetWorkList();
 		checkNetWorkList();
-		String[] info = {infoTxt, infoHTML, errorMap.get(testItem.get(5)).get(1)};
+		String[] info = { infoTxt, infoHTML, errorMap.get(testItem.get(5)).get(1) };
 		return info;
-		//write2TXT();
-		/*String[] error = {"",""};
-		error[0] = infoHTML;
-		error[1] = infoTxt;
-		return error;*/
+		// write2TXT();
+		/*
+		 * String[] error = {"",""}; error[0] = infoHTML; error[1] = infoTxt;
+		 * return error;
+		 */
 		// System.out.println(matchXPath("/uut:UUTDescription/uut:Hardware/hc:Interface/c:Ports/c:Port/[@name=\"P9']"));
 	}
 
@@ -99,9 +100,9 @@ public class StationReader extends InfoWrite implements XPathStandard {
 		List<Element> network = getElementWithNamespace(root, "NetworkList", "hc");
 		// error += ("#################XPath standard
 		// check#####################\n");
-		//WriteNormalInfo("**********TestStation路径检测**********");
+		// WriteNormalInfo("**********TestStation路径检测**********");
 		WriteTestItem1(testItem.get(5));
-		
+
 		int textPathNum = 0;
 		int notWorklistNum = 0;
 		for (Iterator<Element> iterators = network.iterator(); iterators.hasNext();) {
@@ -117,12 +118,13 @@ public class StationReader extends InfoWrite implements XPathStandard {
 				for (Iterator<Element> iteratorNodes = nodes.iterator(); iteratorNodes.hasNext();) {
 					Element path = (Element) iteratorNodes.next();
 					String str = path.element("Path").getText();
-					//String documentID = path.attributeValue("documentId");
+					// String documentID = path.attributeValue("documentId");
 					// 判断是否为TestStation自连路径，之后再做检测
 					if (getXPathType(str).equals(StringUtil.station)) {
-						/*if(documentID.equals("")){
-							documentID = path.attributeValue("documentId");
-						}*/
+						/*
+						 * if(documentID.equals("")){ documentID =
+						 * path.attributeValue("documentId"); }
+						 */
 						if (!matchXPath(str)) {
 							System.out.println(str + " is not standard XPath!");
 							// error += (str + " is not standard XPath!\n");
@@ -137,17 +139,18 @@ public class StationReader extends InfoWrite implements XPathStandard {
 							standardXpath.add(str);
 						}
 						textPathNum++;
-					}else{
-						if(getXPathType(str).equals(StringUtil.instrument))
-						{
-							
-						}else{
-							errorXpath.add(str);	
-						}	
-						/*if(){
-							
-						}*/
-						//unStandardXpath.add(str);
+					} else {
+						if (getXPathType(str).equals(StringUtil.instrument)) {
+
+						} else {
+							errorXpath.add(str);
+						}
+						/*
+						 * if(){
+						 * 
+						 * }
+						 */
+						// unStandardXpath.add(str);
 					}
 					// netWorkNodes.add(str);
 				}
@@ -159,11 +162,11 @@ public class StationReader extends InfoWrite implements XPathStandard {
 		WriteBoldInfo(testItem.get(5), notWorklistNum + "对");
 		WriteNormalInfoWithoutEnter(testItem.get(5), "错误的XPath路径有：");
 		WriteBoldInfo(testItem.get(5), errorXpath.size() + "个");
-		if(errorXpath.size() > 0){
+		if (errorXpath.size() > 0) {
 			WriteNormalInfo(testItem.get(5), "错误的XPath路径为：");
 			for (int i = 0; i < errorXpath.size(); i++) {
 				String errorXpath = this.errorXpath.get(i);
-				WriteErrorInfo(testItem.get(5), errorXpath);	
+				WriteErrorInfo(testItem.get(5), errorXpath);
 			}
 		}
 		WriteTestItem2(testItem.get(5), "TestStation的XPath路径检测");
@@ -174,64 +177,39 @@ public class StationReader extends InfoWrite implements XPathStandard {
 		WriteBoldInfo(testItem.get(5), standardXpath.size() + "");
 		WriteNormalInfoWithoutEnter(testItem.get(5), "不标准的XPath路径个数为：");
 		WriteBoldInfo(testItem.get(5), unStandardXpath.size() + "");
-		
+
 		if (unStandardXpath.size() > 0) {
 			WriteNormalInfo(testItem.get(5), "不标准的XPath路径为：");
 			for (int i = 0; i < unStandardXpath.size(); i++) {
 				String unstandardXpath = unStandardXpath.get(i);
-				WriteErrorInfo(testItem.get(5), unstandardXpath);	
+				WriteErrorInfo(testItem.get(5), unstandardXpath);
 			}
 		}
 
 	}
 
-/*	private boolean IsInstType(String str) {
-		// TODO 自动生成的方法存根
-		boolean b = false;
-		if (!str.equals("")) {
-			String[] dirs = str.split("/");
-			if(dirs[1] == null){
-				return false;
-			}
-			String[] dir = dirs[1].split(":");
+	/*
+	 * private boolean IsInstType(String str) { // TODO 自动生成的方法存根 boolean b =
+	 * false; if (!str.equals("")) { String[] dirs = str.split("/"); if(dirs[1]
+	 * == null){ return false; } String[] dir = dirs[1].split(":");
+	 * 
+	 * if (dir.length == 1) { if (dir[0].equals(StringUtil.instrument)) { b =
+	 * true; } } else { if (dir[1].equals(StringUtil.instrument)) { b = true; }
+	 * } }
+	 * 
+	 * return b; }
+	 */
 
-			if (dir.length == 1) {
-				if (dir[0].equals(StringUtil.instrument)) {
-					b = true;
-				}
-			} else {
-				if (dir[1].equals(StringUtil.instrument)) {
-					b = true;
-				}
-			}
-		}
-
-		return b;
-	}*/
-	
-/*	private boolean IsStationType(String str) {
-		// TODO 自动生成的方法存根
-		boolean b = false;
-		if (!str.equals("")) {
-			String[] dirs = str.split("/");
-			if(dirs[1] == null){
-				return false;
-			}
-			String[] dir = dirs[1].split(":");
-
-			if (dir.length == 1) {
-				if (dir[0].equals(station)) {
-					b = true;
-				}
-			} else {
-				if (dir[1].equals(station)) {
-					b = true;
-				}
-			}
-		}
-
-		return b;
-	}*/
+	/*
+	 * private boolean IsStationType(String str) { // TODO 自动生成的方法存根 boolean b =
+	 * false; if (!str.equals("")) { String[] dirs = str.split("/"); if(dirs[1]
+	 * == null){ return false; } String[] dir = dirs[1].split(":");
+	 * 
+	 * if (dir.length == 1) { if (dir[0].equals(station)) { b = true; } } else {
+	 * if (dir[1].equals(station)) { b = true; } } }
+	 * 
+	 * return b; }
+	 */
 
 	private void checkNetWorkList() {
 		System.out.println("####################check#####################");
@@ -338,11 +316,11 @@ public class StationReader extends InfoWrite implements XPathStandard {
 		}
 	}
 
-	/*private boolean matchXPath(String XPath) {
-		Pattern pattern = Pattern.compile(regEX);
-		Matcher matcher = pattern.matcher(XPath);
-		return matcher.matches();
-	}*/
+	/*
+	 * private boolean matchXPath(String XPath) { Pattern pattern =
+	 * Pattern.compile(regEX); Matcher matcher = pattern.matcher(XPath); return
+	 * matcher.matches(); }
+	 */
 
 	private void write2TXT() {
 		File dataFlie = new File("stationError.txt");

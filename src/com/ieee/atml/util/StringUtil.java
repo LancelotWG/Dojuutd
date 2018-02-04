@@ -18,6 +18,7 @@ public interface StringUtil {
 	public static final String testSignalTest = "SignalTest";
 	public static final String instrumentTest = "InstrumentDescriptionTest";
 	public static final String resultTest = "TestResultTest";
+	public static final String wireListTest = "WireListTest";
 	public static final String[] testItem = new String[] { testDescriptionTest, instrumentTest, UUTTest, configurationTest,  adapterTest, stationTest,
-			resultTest, testSignalTest};
+			resultTest, testSignalTest, wireListTest};
 }

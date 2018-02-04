@@ -31,6 +31,8 @@ public class TestStationVisitor extends VisitorSupport implements XPathStandard 
 
 	List<String> cPinpath = new ArrayList();
 
+	String uuid;
+
 	public List<String> getcPinpath() {
 		return cPinpath;
 	}
@@ -74,8 +76,9 @@ public class TestStationVisitor extends VisitorSupport implements XPathStandard 
 	}
 
 	private HashMap<String, ArrayList<String>> instDocIDXpathMaps = new HashMap<String, ArrayList<String>>();
-	
-	//private HashMap<String, ArrayList<String>> errorXpathMaps = new HashMap<String, ArrayList<String>>();
+
+	// private HashMap<String, ArrayList<String>> errorXpathMaps = new
+	// HashMap<String, ArrayList<String>>();
 
 	public List<String> getInstrumentIDs() {
 		return instrumentIDs;
@@ -85,6 +88,10 @@ public class TestStationVisitor extends VisitorSupport implements XPathStandard 
 	public void visit(Element node) {
 		// TODO 自动生成的方法存根
 
+		// 获得uuid
+		if (node.getName().equals("TestStationDescription")) {
+			uuid = node.attributeValue("uuid");
+		}
 		// 访问Port接口并存储connectorpins信息
 		if (node.getName().equals("Port") && node.getNamespacePrefix().equals("c")) {
 			Element elt = node.getParent().getParent().getParent();
@@ -190,28 +197,28 @@ public class TestStationVisitor extends VisitorSupport implements XPathStandard 
 			// System.out.println(nodeTxt+"\n");
 
 			if (!nodeTxt.equals("")) {
-					if (getXPathType(nodeTxt).equals(StringUtil.instrument)) {
-						if (instDocIDXpathMaps.containsKey(tempDocId)) {
-							instDocIDXpathMaps.get(tempDocId).add(nodeTxt);
-						} else {
-							ArrayList<String> xpath = new ArrayList<String>();
-							xpath.add(nodeTxt);
-							instDocIDXpathMaps.put(tempDocId, xpath);
-						}
-						// instDocIDXpathMaps.put(tempDocId, nodeTxt);
-					}else {
-						if(getXPathType(nodeTxt).equals(StringUtil.station)){
-							
-						}else{
-							/*if (errorXpathMaps.containsKey(tempDocId)) {
-								instDocIDXpathMaps.get(tempDocId).add(nodeTxt);
-							} else {
-								ArrayList<String> xpath = new ArrayList<String>();
-								xpath.add(nodeTxt);
-								errorXpathMaps.put(tempDocId, xpath);
-							}*/
-						}
+				if (getXPathType(nodeTxt).equals(StringUtil.instrument)) {
+					if (instDocIDXpathMaps.containsKey(tempDocId)) {
+						instDocIDXpathMaps.get(tempDocId).add(nodeTxt);
+					} else {
+						ArrayList<String> xpath = new ArrayList<String>();
+						xpath.add(nodeTxt);
+						instDocIDXpathMaps.put(tempDocId, xpath);
 					}
+					// instDocIDXpathMaps.put(tempDocId, nodeTxt);
+				} else {
+					if (getXPathType(nodeTxt).equals(StringUtil.station)) {
+
+					} else {
+						/*
+						 * if (errorXpathMaps.containsKey(tempDocId)) {
+						 * instDocIDXpathMaps.get(tempDocId).add(nodeTxt); }
+						 * else { ArrayList<String> xpath = new
+						 * ArrayList<String>(); xpath.add(nodeTxt);
+						 * errorXpathMaps.put(tempDocId, xpath); }
+						 */
+					}
+				}
 			}
 
 		}
@@ -230,49 +237,23 @@ public class TestStationVisitor extends VisitorSupport implements XPathStandard 
 
 	}
 
-	/*private boolean IsInstPath(String path) {
-		// TODO 自动生成的方法存根
-		boolean b = false;
-		if (!path.equals("")) {
-			String[] dirs = path.split("/");
-			String[] dir = dirs[1].split(":");
-			if(dirs[1] == null){
-				return false;
-			}
-			if ((dir.length == 1) && (dir[0].equals("InstrumentDescription"))) {
-				b = true;
-			} else {
-				if (dir[1].equals("InstrumentDescription")) {
-					b = true;
-				}
-			}
-		}
-
-		return b;
-	}
-	private boolean IsStationType(String str) {
-		// TODO 自动生成的方法存根
-		boolean b = false;
-		if (!str.equals("")) {
-			String[] dirs = str.split("/");
-			if(dirs[1] == null){
-				return false;
-			}
-			String[] dir = dirs[1].split(":");
-
-			if (dir.length == 1) {
-				if (dir[0].equals(StringUtil.station)) {
-					b = true;
-				}
-			} else {
-				if (dir[1].equals(StringUtil.station)) {
-					b = true;
-				}
-			}
-		}
-
-		return b;
-	}*/
+	/*
+	 * private boolean IsInstPath(String path) { // TODO 自动生成的方法存根 boolean b =
+	 * false; if (!path.equals("")) { String[] dirs = path.split("/"); String[]
+	 * dir = dirs[1].split(":"); if(dirs[1] == null){ return false; } if
+	 * ((dir.length == 1) && (dir[0].equals("InstrumentDescription"))) { b =
+	 * true; } else { if (dir[1].equals("InstrumentDescription")) { b = true; }
+	 * } }
+	 * 
+	 * return b; } private boolean IsStationType(String str) { // TODO 自动生成的方法存根
+	 * boolean b = false; if (!str.equals("")) { String[] dirs = str.split("/");
+	 * if(dirs[1] == null){ return false; } String[] dir = dirs[1].split(":");
+	 * 
+	 * if (dir.length == 1) { if (dir[0].equals(StringUtil.station)) { b = true;
+	 * } } else { if (dir[1].equals(StringUtil.station)) { b = true; } } }
+	 * 
+	 * return b; }
+	 */
 	/*
 	 * private int IsInstrumentExist(String tempuuid) { // TODO 自动生成的方法存根 int
 	 * marker=-1;
@@ -303,6 +284,10 @@ public class TestStationVisitor extends VisitorSupport implements XPathStandard 
 		}
 
 		return pc;
+	}
+
+	public String getUUID() {
+		return uuid;
 	}
 
 }

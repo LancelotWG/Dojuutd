@@ -19,6 +19,8 @@ public class AdapterVisitor extends VisitorSupport {
 	List<String> connectorPins1 = new ArrayList();
 
 	List<String> cPinpath = new ArrayList();
+	
+	String uuid;
 
 	public List<String> getcPinpath() {
 		return cPinpath;
@@ -51,6 +53,11 @@ public class AdapterVisitor extends VisitorSupport {
 	@Override
 	public void visit(Element node) {
 		// TODO 自动生成的方法存根
+		
+		// 获得uuid
+		if (node.getName().equals("TestAdapterDescription")) {
+			uuid = node.attributeValue("uuid");
+		}
 		super.visit(node);
 		if (node.getName().equals("Port") && node.getNamespacePrefix().equals("c")) {
 			Element elt = node.getParent().getParent().getParent();
@@ -126,5 +133,9 @@ public class AdapterVisitor extends VisitorSupport {
 		}
 
 		return pc;
+	}
+	
+	public String getUUID() {
+		return uuid;
 	}
 }

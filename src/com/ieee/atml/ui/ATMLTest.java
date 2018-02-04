@@ -66,6 +66,7 @@ public class ATMLTest implements FileTypeValidation {
 	JLabel fileAdapterDirLabel = new JLabel("TestAdapter文件路径：");
 	JLabel fileStationDirLabel = new JLabel("TestStationDescription文件路径：");
 	JLabel fileDescriptionDirLabel = new JLabel("TestDescription文件路径：");
+	JLabel fileWireListDirLabel = new JLabel("TestWireList文件路径：");
 	JLabel fileSTDBSCDirLabel = new JLabel("STDBSC文件路径：");
 	JLabel fileSTDTSFLibDirLabel = new JLabel("STDTSFLib文件夹路径：");
 	JLabel fileExtTSFLibDirLabel = new JLabel("ExtTSFLib文件夹路径：");
@@ -82,6 +83,7 @@ public class ATMLTest implements FileTypeValidation {
 	JTextField fileAdapterDir = new JTextField(80);
 	JTextField fileStationDir = new JTextField(80);
 	JTextField fileDescriptionDir = new JTextField(80);
+	JTextField fileWireListDir = new JTextField(80);
 	JTextField fileSTDBSCDir = new JTextField(80);
 	JTextField fileSTDTSFLibDir = new JTextField(80);
 	JTextField fileExtTSFLibDir = new JTextField(80);
@@ -119,6 +121,9 @@ public class ATMLTest implements FileTypeValidation {
 	// StationPop
 	JPopupMenu browseStationPop = new JPopupMenu();
 	JMenuItem browseStationItem = new JMenuItem("浏览", openIcon);
+	// WireListPop
+	JPopupMenu browseWireListPop = new JPopupMenu();
+	JMenuItem browseWireListItem = new JMenuItem("浏览", openIcon);
 	// DescriptionPop
 	JPopupMenu browseDescriptionPop = new JPopupMenu();
 	JMenuItem browseDescriptionItem = new JMenuItem("浏览", openIcon);
@@ -236,6 +241,9 @@ public class ATMLTest implements FileTypeValidation {
 		// description路径布局
 		JPanel descriptionPanel = new JPanel();
 		addDirComponent(descriptionPanel, fileDescriptionDirLabel, fileDescriptionDir);
+		// description路径布局
+		JPanel wireListPanel = new JPanel();
+		addDirComponent(wireListPanel, fileWireListDirLabel, fileWireListDir);
 		// STDBSC路径布局
 		JPanel STDBSCPanel = new JPanel();
 		addDirComponent(STDBSCPanel, fileSTDBSCDirLabel, fileSTDBSCDir);
@@ -270,6 +278,7 @@ public class ATMLTest implements FileTypeValidation {
 		checkPanel.add(adapterPanel);
 		checkPanel.add(stationPanel);
 		checkPanel.add(descriptionPanel);
+		checkPanel.add(wireListPanel);
 		checkPanel.add(STDBSCPanel);
 		checkPanel.add(STDTSFLibPanel);
 		checkPanel.add(ExtTSFLibPanel);
@@ -329,6 +338,11 @@ public class ATMLTest implements FileTypeValidation {
 				checkPanel.add(startPanel);
 			} else if (testItem.equals(StringUtil.resultTest)) {
 				checkPanel.add(resultPanel);
+				checkPanel.add(xmlSpyPanel);
+				startTestButton.setVisible(false);
+				checkPanel.add(startPanel);
+			} else if (testItem.equals(StringUtil.wireListTest)) {
+				checkPanel.add(wireListPanel);
 				checkPanel.add(xmlSpyPanel);
 				startTestButton.setVisible(false);
 				checkPanel.add(startPanel);

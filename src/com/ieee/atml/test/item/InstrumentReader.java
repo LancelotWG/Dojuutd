@@ -264,7 +264,7 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 					//addErrorItem(testItem[0], errorIter2.next());
 				}
 			}
-
+			//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 			fos.write(infoTxt.getBytes());
 
 		} catch (IOException e) {

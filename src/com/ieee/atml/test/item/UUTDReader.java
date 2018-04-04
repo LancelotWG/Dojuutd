@@ -74,6 +74,7 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 			initInfoMap();
 			Write(txtpath, uvisitor);
 			infoWriteWord(fileName);
+			//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 			// System.out.println("Connectionpins
 			// num="+uvisitor.getConpinNum()+"\nUUID="+uvisitor.getUuid()+"\nSize:"+list.size()+"
 			// "+list1.size());

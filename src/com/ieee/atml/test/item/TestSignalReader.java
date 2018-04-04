@@ -428,7 +428,7 @@ public class TestSignalReader extends InfoWrite {
 				}
 			}
 			
-
+			//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 			// addErrorItemWithoutEnter(testItem[0], errorTxt);
 			fos.write(infoTxt.getBytes());
 

@@ -1,0 +1,7 @@
+检测完成，结果如下:
+**********测试配置文件匹配性测试**********
+UUTDescription的UUID与TestConfiguration中的UUID匹配；
+TestStationDescription的UUID与TestConfiguration中的UUID匹配；
+TestAdapter的UUID与TestConfiguration中的UUID匹配；
+TestDescription的UUID与TestConfiguration中的UUID匹配；
+-----------检测通过-----------

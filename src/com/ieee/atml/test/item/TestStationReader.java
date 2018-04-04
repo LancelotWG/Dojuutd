@@ -91,12 +91,12 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 			// 检测TS自连得路径信息(Lancelot)
 			StationReader stationtest = new StationReader(testItem);
 			String[] stationInfo = stationtest.stationReader(xmlpath);
-
+			
 			// System.out.println(stationErrorpath[1]);
 			// 将Station文件的检测结果写入文件和“结果显示区”
 			WriteTxtFile(txtpath, tsVisitor, stationInfo);
 			infoWriteWord(fileName);
-
+			//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 		} catch (DocumentException e) {
 			System.out.println(e.getMessage());
 		}

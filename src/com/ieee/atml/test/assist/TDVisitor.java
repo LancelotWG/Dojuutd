@@ -5,16 +5,41 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.dom4j.Attribute;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.VisitorSupport;
 import org.ietf.jgss.MessageProp;
+
+import com.ieee.atml.test.resource.Action;
+import com.ieee.atml.test.resource.Signal;
+import com.ieee.atml.test.resource.SignalType;
 
 public class TDVisitor extends VisitorSupport {
 
 	private List<Element> signalEltList = new ArrayList<>();
 	private HashMap<String, List<HashMap<String, String>>> parameterMap = new HashMap<>();
 	private HashMap<String, List<HashMap<String, String>>> globelParameterMap = new HashMap<>();
+
+	private List<Signal> localSignal = new ArrayList();
+	private List<Signal> globelSignal = new ArrayList();
+
+	public List<Signal> getLocalSignal() {
+		return localSignal;
+	}
+
+	public void setLocalSignal(List<Signal> localSignal) {
+		this.localSignal = localSignal;
+	}
+
+	public List<Signal> getGlobelSignal() {
+		return globelSignal;
+	}
+
+	public void setGlobelSignal(List<Signal> globelSignal) {
+		this.globelSignal = globelSignal;
+	}
+
 	String uuid;
 
 	public String getUuid() {
@@ -33,16 +58,204 @@ public class TDVisitor extends VisitorSupport {
 		return signalEltList;
 	}
 
+	private List<Element> getNodes(Element node) {
+		List<Element> listElement = node.elements();
+		List<Element> aElements = new ArrayList<>();
+		aElements.addAll(listElement);
+		for (Element e : listElement) {
+			List<Element> elememts = getNodes(e);
+			aElements.addAll(elememts);
+		}
+		return aElements;
+	}
+
+	private SignalType getSignalName(Element operation) {
+		SignalType signal = new SignalType();
+/*		String operationType = operation.attributeValue("xsi:type");*/
+		List<Element> childElement = getNodes(operation);
+
+		for (Iterator iterator = childElement.iterator(); iterator.hasNext();) {
+			Element element = (Element) iterator.next();
+			List<Attribute> listAttr = element.attributes();
+			for (Attribute attr : listAttr) {
+				String name = attr.getName();
+				String value = attr.getValue();
+				if(name.contains("SignalID")){
+					signal.setName(value);
+					if(name.contains("global") || name.contains("Global")){
+						signal.setGlobel(true);
+					}else{
+						signal.setGlobel(false);
+					}
+					break;
+				}
+			}
+			
+		}
+
+		/*if (operationType.equals("td:OperationSetup")) {
+			Node signalNode = operation.selectSingleNode("./td:Sensor/td:LocalSensorSignalReference");
+
+			
+			 * if(signal != null){
+			 * 
+			 * }else{ signalNode = operation.selectSingleNode(
+			 * "./td:Source/td:LocalSourceSignalReference"); if(signal != null){
+			 * 
+			 * }else{ signalNode = operation.selectSingleNode(
+			 * "./td:Monitor/td:LocalMonitorSignalReference"); if(signal !=
+			 * null){
+			 * 
+			 * }else{ signalNode =
+			 * operation.selectSingleNode("./td:Source/td:GlobalSignalReference"
+			 * ); if(signal != null){
+			 * 
+			 * }else{
+			 * 
+			 * } } } }
+			 
+
+		} else if (operationType.equals("td:OperationConnect")) {
+
+		} else if (operationType.equals("td:OperationRead")) {
+
+		} else if (operationType.equals("td:OperationReset")) {
+
+		} else if (operationType.equals("td:OperationSetValue")) {
+
+		} else if (operationType.equals("td:OperationCalculate")) {
+
+		} else if (operationType.equals("td:OperationWaitFor")) {
+
+		} else if (operationType.equals("td:OperationChange")) {
+
+		} else if (operationType.equals("td:OperationDisconnect")) {
+
+		}*/
+		return signal;
+	}
+	
+	
+	
+	private void addSignal(SignalType signal, String actionName, String operation){
+		Action action = null;
+		Signal aSignal = null;
+		if(signal.isGlobel()){
+			for (Iterator iterator = globelSignal.iterator(); iterator.hasNext();) {
+				Signal signal1 = (Signal) iterator.next();
+				if(signal1.getName().equals(signal.getName())){
+					aSignal = signal1;
+					break;
+				}
+			}
+			if(aSignal != null){
+				action = aSignal.getAction(actionName);	
+				if(action != null){
+					action.getOperations().add(operation);
+				}else{
+					action = new Action();
+					action.setName(actionName);
+					action.setOperations(new ArrayList<>());
+					action.getOperations().add(operation);
+					aSignal.getActions().add(action);
+				}
+			}else{
+				action = new Action();
+				action.setOperations(new ArrayList<>());
+				action.setName(actionName);
+				action.getOperations().add(operation);
+				aSignal = new Signal();
+				aSignal.setName(signal.getName());
+				aSignal.setActions(new ArrayList<Action>());
+				aSignal.getActions().add(action);
+				globelSignal.add(aSignal);
+			}
+		}else{
+			for (Iterator iterator = localSignal.iterator(); iterator.hasNext();) {
+				Signal signal1 = (Signal) iterator.next();
+				if(signal1.getName() == null){
+					int i = 1;
+				}
+				if(signal1.getName().equals(signal.getName())){
+					aSignal = signal1;
+					break;
+				}
+			}
+			if(aSignal != null){
+				action = aSignal.getAction(actionName);	
+				if(action != null){
+					action.getOperations().add(operation);
+				}else{
+					action = new Action();
+					action.setName(actionName);
+					action.setOperations(new ArrayList<>());
+					action.getOperations().add(operation);
+					aSignal.getActions().add(action);
+				}
+			}else{
+				action = new Action();
+				action.setOperations(new ArrayList<>());
+				action.setName(actionName);
+				action.getOperations().add(operation);
+				aSignal = new Signal();
+				aSignal.setName(signal.getName());
+				aSignal.setActions(new ArrayList<Action>());
+				aSignal.getActions().add(action);
+				localSignal.add(aSignal);
+			}
+		}
+	}
+
 	@Override
 	public void visit(Element node) {
 		// TODO 自动生成的方法存根
 		super.visit(node);
-		
+
 		if (node.getName().equals("DescriptionDocumentReference") && node.getNamespacePrefix().equals("c")) {
-			if(node.getParent().getParent().getName().equals("UUT")){
+			if (node.getParent().getParent().getName().equals("UUT")) {
 				uuid = node.attributeValue("uuid");
 			}
 		}
+
+		if (node.getName().equals("Action") && node.getNamespacePrefix().equals("td")) {
+			String actionName = node.attributeValue("name");
+			HashMap<String, List<String>> signal = new HashMap<>();
+			List<Element> operationNodes = node.selectNodes("./td:Behavior/td:Operations/td:Operation");
+			String preSignalName = null;
+			for (Iterator iterator = operationNodes.iterator(); iterator.hasNext();) {
+				Element element = (Element) iterator.next();
+				String operationType = element.attributeValue("type");
+				SignalType signalName = getSignalName(element);
+				if(signalName.getName() != null){
+					preSignalName = signalName.getName();
+				}else{
+					if(signalName.getName() == null){
+						preSignalName = actionName;
+					}
+					signalName.setName(preSignalName);
+				}
+				if (operationType.equals("td:OperationSetup")) {
+					addSignal(signalName,actionName,"OperationSetup");
+				} else if (operationType.equals("td:OperationConnect")) {
+					addSignal(signalName,actionName,"OperationConnect");
+				} else if (operationType.equals("td:OperationRead")) {
+					addSignal(signalName,actionName,"OperationRead");
+				} else if (operationType.equals("td:OperationReset")) {
+					addSignal(signalName,actionName,"OperationReset");
+				} else if (operationType.equals("td:OperationSetValue")) {
+					addSignal(signalName,actionName,"OperationSetValue");
+				} else if (operationType.equals("td:OperationCalculate")) {
+					addSignal(signalName,actionName,"OperationCalculate");
+				} else if (operationType.equals("td:OperationWaitFor")) {
+					addSignal(signalName,actionName,"OperationWaitFor");
+				} else if (operationType.equals("td:OperationChange")) {
+					addSignal(signalName,actionName,"OperationChange");
+				} else if (operationType.equals("td:OperationDisconnect")) {
+					addSignal(signalName,actionName,"OperationDisconnect");
+				}
+			}
+		}
+
 		if (node.getName().equals("Operation") && node.getNamespacePrefix().equals("td")) {
 			if (node.attributeValue("type", "xsi").equals("td:OperationConnect")) {
 				Element signalNode = (Element) node.selectSingleNode("./td:Signal/std:Signal");

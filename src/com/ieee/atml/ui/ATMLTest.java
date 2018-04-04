@@ -53,7 +53,7 @@ import com.ieee.atml.util.StringUtil;
 
 public class ATMLTest implements FileTypeValidation {
 	// 界面主框架
-	JFrame f = new JFrame("ATML测评工具");
+	JFrame f = new JFrame("ATML检查工具");
 	// 测试选项
 	// String[] testItem = new String[] { "ConfigureTest", "UUTTest",
 	// "AdapterTest", "StationTest",

@@ -104,7 +104,7 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 		testItem.add("Port与Connector管脚一致性检查");
 		testItem.add("XPath格式正确性检测");
 		testItem.add("XPath路径引用正确及匹配性检查");
-		testItem.add("TestAdapter连接关系及连通性检测");
+		//testItem.add("TestAdapter连接关系及连通性检测");
 		//testItem.add("TestStation，UUTDescription文件port数据类型与数据流向检测");
 	}
 
@@ -827,7 +827,7 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 				}
 			}
 		}
-
+		
 	}
 
 	public void adapterReader(String adapterDir, String UUTDir, String stationDir) {
@@ -844,7 +844,8 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 		System.out.println(netWorkList.size());
 		checkNetWorkList();
 		System.out.println(netWorkList.size());
-		extractNetworkLink();
+		//extractNetworkLink();
+		//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 		//checkPortTypeAndFlow();
 		write2TXT();
 

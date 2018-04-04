@@ -44,6 +44,12 @@ public abstract class InfoWrite implements InfoWrite2HTML, InfoWrite2Txt,  InfoW
 		infoTxt += WriteNormalTxt(info);
 		addInfoItem(testItem, info);
 	}
+	
+	protected void WriteRedInfo(String testItem, String info) {
+		// TODO 自动生成的方法存根
+		infoHTML += WriteRedHTML(info);
+		infoTxt += WriteNormalTxt(info);
+	}
 
 	protected void WriteBoldInfo(String testItem, String info) {
 		// TODO 自动生成的方法存根
@@ -57,6 +63,12 @@ public abstract class InfoWrite implements InfoWrite2HTML, InfoWrite2Txt,  InfoW
 		infoHTML += WriteNormalHTML(info);
 		infoTxt += WriteNormalTxt(info);
 		addInfoItem(testItem, info);
+	}
+	
+	protected void WriteNormalInfo(String info) {
+		// TODO 自动生成的方法存根
+		infoHTML += WriteNormalHTML(info);
+		infoTxt += WriteNormalTxt(info);
 	}
 
 	protected void WriteNormalInfoWithoutEnter(String testItem, String info) {

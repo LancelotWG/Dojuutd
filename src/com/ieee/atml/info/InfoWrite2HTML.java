@@ -6,6 +6,11 @@ public interface InfoWrite2HTML {
 		return ("<font color='red'>" + "<b><i>" + string + "</i></b>" + "</font><br>");
 	}
 
+	default String WriteRedHTML(String string) {
+		// TODO 自动生成的方法存根
+		return ("<center><font color='red' size='5'>" + "<b><i>" + string + "</i></b>" + "</font></center><br>");
+	}
+	
 	default String WriteBoldHTML(String string) {
 		// TODO 自动生成的方法存根
 		return "<b><i>" + string + "</i></b><br>";

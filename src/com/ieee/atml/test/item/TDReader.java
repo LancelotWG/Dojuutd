@@ -18,6 +18,8 @@ import org.dom4j.io.SAXReader;
 import com.ieee.atml.info.InfoWrite;
 import com.ieee.atml.test.assist.TDVisitor;
 import com.ieee.atml.test.assist.UUTDVisitor;
+import com.ieee.atml.test.resource.Action;
+import com.ieee.atml.test.resource.Signal;
 import com.ieee.atml.util.StringUtil;
 
 public class TDReader extends InfoWrite {
@@ -45,6 +47,8 @@ public class TDReader extends InfoWrite {
 
 	private HashMap<Element, ArrayList<ArrayList<Element>>> signalList = new HashMap<>();
 	private HashMap<Element, List<List<String>>> signalListString = new HashMap<>();
+	
+	private HashMap<Element, List<String>> signals = new HashMap<>();
 
 	// private ArrayList<ArrayList<String>> instrumentLise = new ArrayList<>();
 
@@ -54,7 +58,10 @@ public class TDReader extends InfoWrite {
 
 	public TDReader() {
 		testItem.add("UUTDescription文件UUID匹配检测");
+		//testItem.add("XPath路径引用正确及匹配性检查");
+		testItem.add("Operation信号周期");
 		testItem.add("OperationConnect检测");
+		
 	}
 
 	private void createSignalList(HashMap<String, Element> UUTPortMap) {
@@ -211,6 +218,11 @@ public class TDReader extends InfoWrite {
 		}
 	}
 
+	public void getSignalOperation(TDVisitor tdVisitor){
+		
+	}
+	
+	
 	private void WriteTxtFile(String txtpath, TDVisitor tdVisitor, UUTDVisitor uutVisitor) {
 		// TODO 自动生成的方法存根
 		File tstxt = new File(txtpath);
@@ -243,30 +255,100 @@ public class TDReader extends InfoWrite {
 				WriteErrorInfo(testItem.get(0), "UUTDescription文件中的UUID为：" + uutVisitor.getUuid());
 			}
 			
+			
+			//WriteTestItem1(testItem.get(1));
+			//WriteNormalInfo(testItem.get(1), "XPath路径引用正确及匹配性检查通过!");
+			
 			WriteTestItem1(testItem.get(1));
+			
+			List<Signal> globelSignal = tdVisitor.getGlobelSignal();
+			List<Signal> localSignal = tdVisitor.getLocalSignal();
+			if(globelSignal.size() != 0){
+				WriteNormalInfoWithoutEnter(testItem.get(1), "Global信号个数为：");
+				String tempStr = globelSignal.size() + "";
+				WriteBoldInfo(testItem.get(1), tempStr);
+				for (Iterator iterator = globelSignal.iterator(); iterator.hasNext();) {
+					Signal signal = (Signal) iterator.next();
+					String signalName = signal.getName();
+					WriteNormalInfoWithoutEnter(testItem.get(1), "-┕Signal：");
+					WriteBoldInfo(testItem.get(2), signalName);
+					WriteNormalInfoWithoutEnter(testItem.get(1), "-----┕"+signalName + "共存在Action个数为：");
+					ArrayList<Action> actions = signal.getActions();
+					WriteBoldInfo(testItem.get(1), actions.size() + "");
+					for (Iterator iterator2 = actions.iterator(); iterator2.hasNext();) {
+						Action action = (Action) iterator2.next();
+						String actionName = action.getName();
+						WriteNormalInfoWithoutEnter(testItem.get(1), "---------┕Action：");
+						WriteBoldInfo(testItem.get(2), actionName);
+						WriteNormalInfoWithoutEnter(testItem.get(1), "-------------┕" + actionName + "共存在Operation个数为：");
+						ArrayList<String> operations = action.getOperations();
+						WriteBoldInfo(testItem.get(1), operations.size() + "");
+						for (Iterator iterator3 = operations.iterator(); iterator3.hasNext();) {
+							String string = (String) iterator3.next();
+							WriteNormalInfo(testItem.get(2), "-----------------┕" + string);
+						}
+					}
+					
+				}
+			}
+			if(localSignal.size() != 0){
+				WriteNormalInfoWithoutEnter(testItem.get(1), "Local信号个数为：");
+				String tempStr = localSignal.size() + "";
+				WriteBoldInfo(testItem.get(1), tempStr);
+				for (Iterator iterator = localSignal.iterator(); iterator.hasNext();) {
+					Signal signal = (Signal) iterator.next();
+					String signalName = signal.getName();
+					WriteNormalInfoWithoutEnter(testItem.get(1), "-┕Signal：");
+					WriteBoldInfo(testItem.get(2), signalName);
+					WriteNormalInfoWithoutEnter(testItem.get(1), "-----┕"+signalName + "共存在Action个数为：");
+					ArrayList<Action> actions = signal.getActions();
+					WriteBoldInfo(testItem.get(1), actions.size() + "");
+					for (Iterator iterator2 = actions.iterator(); iterator2.hasNext();) {
+						Action action = (Action) iterator2.next();
+						String actionName = action.getName();
+						WriteNormalInfoWithoutEnter(testItem.get(1), "---------┕Action：");
+						WriteBoldInfo(testItem.get(2), actionName);
+						WriteNormalInfoWithoutEnter(testItem.get(1), "-------------┕" + actionName + "共存在Operation个数为：");
+						ArrayList<String> operations = action.getOperations();
+						WriteBoldInfo(testItem.get(1), operations.size() + "");
+						for (Iterator iterator3 = operations.iterator(); iterator3.hasNext();) {
+							String string = (String) iterator3.next();
+							WriteNormalInfo(testItem.get(2), "-----------------┕" + string);
+						}
+					}
+					
+				}
+			}
+			if(globelSignal.size() == 0 && localSignal.size()==0){
+				WriteErrorInfo(testItem.get(1), "文件中无Global信号以及Local信号！");
+			}
+			
+			//WriteNormalInfo(testItem.get(1), "信号匹配性检测通过!");
+			
+			WriteTestItem1(testItem.get(2));
 			if (errorSignalMap.size() == 0) {
-				WriteNormalInfo(testItem.get(1), "测试需求同UUT管脚匹配正确!");
+				WriteNormalInfo(testItem.get(2), "测试需求同UUT管脚匹配正确!");
 				// addErrorItem(testItem[0], "管脚完全匹配！");
 			} else {
 				// errorInfo+="管脚不匹配的OperationConnect数目为：";
-				WriteNormalInfoWithoutEnter(testItem.get(1), "管脚不匹配的OperationConnect数目为：");
+				WriteNormalInfoWithoutEnter(testItem.get(2), "管脚不匹配的OperationConnect数目为：");
 				// addErrorItemWithoutEnter(testItem[0],
 				// "管脚不匹配的OperationConnect数目为：");
 
 				String tempStr = errorSignalMap.size() + "";
-				WriteBoldInfo(testItem.get(1), tempStr);
+				WriteBoldInfo(testItem.get(2), tempStr);
 				// addErrorItem(testItem[0], tempStr);
 
-				WriteNormalInfo(testItem.get(1), "管脚不匹配的OperationConnect的ID为:");
+				WriteNormalInfo(testItem.get(2), "管脚不匹配的OperationConnect的ID为:");
 				// addErrorItem(testItem[0], "管脚不匹配的OperationConnect名称为:");
 				Iterator iter = errorSignalMap.entrySet().iterator();
 				while (iter.hasNext()) {
 					Map.Entry<String, List<String>> entry = (Map.Entry<String, List<String>>) iter.next();
-					WriteErrorInfo(testItem.get(1), entry.getKey());
+					WriteErrorInfo(testItem.get(2), entry.getKey());
 					// addErrorItem(testItem[0], entry.getKey());
 				}
 			}
-
+			//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 			fos.write(infoTxt.getBytes());
 
 		} catch (IOException e) {
@@ -305,6 +387,7 @@ public class TDReader extends InfoWrite {
 				errorSignalMap.put(entry.getKey(), entry.getValue());
 		}
 	}
+	
 
 	private void InstanceSignalMap(TDVisitor tdVisitor) {
 		// TODO 自动生成的方法存根

@@ -1,23 +1,40 @@
 package com.ieee.atml.test.item;
 
 import java.io.File;
-import java.util.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+
 import com.ieee.atml.info.InfoWrite;
 import com.ieee.atml.test.assist.*;
 import com.ieee.atml.test.resource.*;
 import com.ieee.atml.util.StringUtil;
+import com.ieee.atml.util.XPathStandard;
 
-public class WireListReader extends InfoWrite{
+public class WireListReader extends InfoWrite implements XPathStandard{
 	
 	private org.dom4j.Document wireListDocument;
 	private org.dom4j.Document uutDocument;
 	private org.dom4j.Document stationDocument;
 	private org.dom4j.Document adapterDocument;
 	
-	private HashMap<String,List<String>> matchList = new HashMap<String,List<String>>();
-	private HashMap<String,List<String>> unMatchList = new HashMap<String,List<String>>();
+	private List<String> standardXpath = new ArrayList<String>();
+	private List<String> unStandardXpath = new ArrayList<String>();
+	private List<String> unExistXpath = new ArrayList<String>();
+	
+	
 	
 	/************************************************测试***************************************************************/
 	public static void main(String[] args) {
@@ -28,165 +45,167 @@ public class WireListReader extends InfoWrite{
 		WireListReader test = new WireListReader();
 		test.Virtualmain(wireListPath, uutPath, stationPath, adapterPath);
 	}
-	/************************************************测试***************************************************************/	
+	/************************************************测试***************************************************************/
+	
+	public WireListReader() {
+		//testItem.add("文件匹配检测");
+		testItem.add("XPath格式正确性检测");
+		testItem.add("XPath路径引用正确及匹配性检查");
+		fileName = "111";
+	}
+	
 	public void Virtualmain(String wirelistpath, String uutpath, String stationpath, String adapterpath) {
 		wireListDocument = readXML(wirelistpath);
 		uutDocument = readXML(uutpath);
 		stationDocument = readXML(stationpath);
 		adapterDocument = readXML(adapterpath);
 		
-		checkPath();
+		initInfoMap();
+		WriteTxtAndHTMLOnly("检测完成，结果如下:");
 		
-		if(matchList.size() != 0) {
-			System.out.println("***************************MatchList************************************");
-			Iterator<Map.Entry<String, List<String>>> iteratorMatch = matchList.entrySet().iterator();
-			while(iteratorMatch.hasNext()) {
-				Map.Entry<String, List<String>> tempMatch = iteratorMatch.next();
-				System.out.println("***************************" + tempMatch.getKey() + "************************************");
-				List<String> tempList = tempMatch.getValue();
-				Iterator<String> iteratorPath = tempList.iterator();
-				while(iteratorPath.hasNext()) {
-					String tempPath = iteratorPath.next();
-					System.out.println(tempPath);
+		checkXpath();
+		
+		write2TXT();
+		infoWriteWord(fileName);
+	}
+	
+	private void checkXpath() {
+		//WireListVisitor wireListVisitor = new WireListVisitor();
+		//UUTDVisitor uutVisitor = new UUTDVisitor();
+		//TestStationVisitor stationVisitor = new TestStationVisitor();
+		//AdapterVisitor adapterVisitor = new AdapterVisitor();
+
+		//wireListDocument.accept(wireListVisitor);
+		//uutDocument.accept(uutVisitor);
+		//stationDocument.accept(stationVisitor);
+		//adapterDocument.accept(adapterVisitor);
+		if(wireListDocument == null) {
+			return;
+		}
+		Element root = wireListDocument.getRootElement();
+		//
+		WriteTestItem1(testItem.get(0)); 
+		WriteNormalInfoWithoutEnter(testItem.get(0),"待检测的Xpath个数为：");
+		int xpathNum = 0;
+		//wirelist
+		List<Element> wireList = root.elements("WireList");
+		for(Iterator<Element> iteratorWireList = wireList.iterator();iteratorWireList.hasNext();) {
+			Element tempWireList = iteratorWireList.next();
+			List<Element> wire = tempWireList.elements("Wire");
+			for(Iterator<Element> iteratorWire = wire.iterator();iteratorWire.hasNext();) {
+				Element tempWire = iteratorWire.next();
+				List<Element> node = getElementWithNamespace(tempWire,"Node","hc");
+				for(Iterator<Element> iteratorNode = node.iterator();iteratorNode.hasNext();) {
+					Element tempNode = iteratorNode.next();
+					String path = tempNode.element("Path").getText();
+					
+					/*if (!matchXPath(path)) {
+						//System.out.println(path + " is not standard XPath!");
+						unStandardXpath.add(path);
+					} else {
+						int index = path.indexOf("/[@");
+						if (index != -1) {
+							path = path.replace("/[", "[");
+							System.out.println(path);
+						}
+						standardXpath.add(path);
+					}*/
+					int index = path.indexOf("/[@");
+					if (index != -1) {
+						path = path.replace("/[", "[");
+						System.out.println(path);
+					}
+					if (!matchXPath(path)) {
+						System.out.println(path + " is not standard XPath!");
+						unStandardXpath.add(path);
+					} else {
+						standardXpath.add(path);
+					}
+					xpathNum++;
 				}
 			}
 		}
 		
-		if(unMatchList.size() != 0) {
-			System.out.println("***************************UnMatchList************************************");
-			Iterator<Map.Entry<String, List<String>>> iteratorUnMatch = unMatchList.entrySet().iterator();
-			while(iteratorUnMatch.hasNext()) {
-				Map.Entry<String, List<String>> tempUnMatch = iteratorUnMatch.next();
-				System.out.println("***************************" + tempUnMatch.getKey() + "************************************");
-				List<String> tempList = tempUnMatch.getValue();
-				Iterator<String> iteratorPath = tempList.iterator();
-				while(iteratorPath.hasNext()) {
-					String tempPath = iteratorPath.next();
-					System.out.println(tempPath);
+		List<Element> testWireList = root.elements("TestWireList");
+		for(Iterator<Element> iteratorTestWireList = testWireList.iterator();iteratorTestWireList.hasNext();) {
+			Element tempTestWireList = iteratorTestWireList.next();
+			List<Element> assetWireList = tempTestWireList.elements("AssetWireList");
+			for(Iterator<Element> iteratorAssetWireList = assetWireList.iterator();iteratorAssetWireList.hasNext();) {
+				Element tempAssetWireList = iteratorAssetWireList.next();
+				List<Element> wire = tempAssetWireList.elements("Wire");
+				for(Iterator<Element> iteratorWire = wire.iterator();iteratorWire.hasNext();) {
+					Element tempWire = iteratorWire.next();
+					List<Element> node = getElementWithNamespace(tempWire,"Node","hc");
+					for(Iterator<Element> iteratorNode = node.iterator();iteratorNode.hasNext();) {
+						Element tempNode = iteratorNode.next();
+						String path = tempNode.element("Path").getText();
+						int index = path.indexOf("/[@");
+						if (index != -1) {
+							path = path.replace("/[", "[");
+							System.out.println(path);
+						}
+						if (!matchXPath(path)) {
+							System.out.println(path + " is not standard XPath!");
+							unStandardXpath.add(path);
+						} else {
+							standardXpath.add(path);
+						}
+						
+						/*if (!matchXPath(path)) {
+							System.out.println(path + " is not standard XPath!");
+							unStandardXpath.add(path);
+						} else {
+							int index = path.indexOf("/[@");
+							if (index != -1) {
+								path = path.replace("/[", "[");
+								System.out.println(path);
+							}
+							standardXpath.add(path);
+						}*/
+						xpathNum++;
+					}
 				}
+			}
+		}
+		
+		WriteBoldInfo(testItem.get(0),xpathNum);
+		WriteNormalInfoWithoutEnter(testItem.get(0),"标准的XPath路径个数为：");
+		WriteBoldInfo(testItem.get(0),standardXpath.size());
+		WriteNormalInfoWithoutEnter(testItem.get(0), "不标准的XPath路径个数为：");
+		WriteBoldInfo(testItem.get(0),unStandardXpath.size());
+		if (unStandardXpath.size() > 0) {
+			WriteNormalInfo(testItem.get(0), "不标准的XPath路径为：");
+			for (int i = 0; i < unStandardXpath.size(); i++) {
+				String unstandardXpath = unStandardXpath.get(i);
+				WriteErrorInfo(testItem.get(0), unstandardXpath);
+			}
+		}
+		
+		//
+		WriteTestItem1(testItem.get(1)); 
+		for (int j = 0; j < standardXpath.size(); j++) {
+			String path = standardXpath.get(j);
+			checkPath(path);
+		}
+		WriteNormalInfoWithoutEnter(testItem.get(1), "标准的XPath路径中可达路径的个数为：");
+		WriteBoldInfo(testItem.get(1), (standardXpath.size() - unExistXpath.size()) + "");
+		WriteNormalInfoWithoutEnter(testItem.get(1), "标准的XPath路径中不可达路径的个数为：");
+		WriteBoldInfo(testItem.get(1), unExistXpath.size() + "");
+		if (unExistXpath.size() > 0) {
+			WriteNormalInfo(testItem.get(1), "标准的XPath路径中不可达路径如下所示：");
+			for (int i = 0; i < unExistXpath.size(); i++) {
+				String unstandardXpath = unExistXpath.get(i);
+				WriteErrorInfo(testItem.get(1), unstandardXpath);
 			}
 		}
 	}
 	
-	private void checkPath() {
-		WireListVisitor wireListVisitor = new WireListVisitor();
-		UUTDVisitor uutVisitor = new UUTDVisitor();
-		TestStationVisitor stationVisitor = new TestStationVisitor();
-		AdapterVisitor adapterVisitor = new AdapterVisitor();
-
-		wireListDocument.accept(wireListVisitor);
-		uutDocument.accept(uutVisitor);
-		stationDocument.accept(stationVisitor);
-		adapterDocument.accept(adapterVisitor);
-		//
-		List<String> uuidList = wireListVisitor.getUUIDList();
-		/*
-		*Iterator<String> iterator = uuidList.iterator();
-		*while(iterator.hasNext())
-			System.out.println(iterator.next());
-		*/
-		//
-		List<String> taPortList = wireListVisitor.getTAPortList();
-		HashMap<String,String> taPathList = wireListVisitor.getTAPathList();
-		/*if(taPortList.size() == 0) 
-			System.out.println("null");
-		Iterator<String> iterator = taPortList.iterator();
-		while(iterator.hasNext())
-			System.out.println(iterator.next());
-		*/
-		//
-		List<String> tsPortList = wireListVisitor.getTSPortList();
-		HashMap<String,String> tsPathList = wireListVisitor.getTSPathList();
-		//
-		List<String> uutPortList = wireListVisitor.getUUTPortList();
-		HashMap<String,String> uutPathList = wireListVisitor.getUUTPathList();
-		
-		if(wireListVisitor.getUUIDList().contains(uutVisitor.getUuid())){
-			List<String> tempMatch = new ArrayList<String>();
-			List<String> tempUnMatch = new ArrayList<String>();
-			List<String> tempNameList = new ArrayList<String>();
-			List<PortClass> portList = uutVisitor.getPortList();
-			//获取uut中所有Port name 并用一定格式保存
-			Iterator<PortClass> iteratorPort = portList.iterator();
-			while(iteratorPort.hasNext()) {
-				PortClass tempPort = iteratorPort.next();
-				String tempName = creatName(tempPort.getPortName());  
-				tempNameList.add(tempName);
-			}
-			//check
-			Iterator<String> iteratorName = uutPortList.iterator();
-			while(iteratorName.hasNext()) {
-				String tempName = iteratorName.next();
-				if(tempNameList.contains(tempName)) {
-					tempMatch.add(uutPathList.get(tempName));
-				}else {
-					tempUnMatch.add(uutPathList.get(tempName));
-				}	
-			}
-			//
-			matchList.put(StringUtil.UUT, tempMatch);
-			unMatchList.put(StringUtil.UUT, tempUnMatch);
-		}
-		
-		if(wireListVisitor.getUUIDList().contains(adapterVisitor.getUUID())){
-			List<String> tempMatch = new ArrayList<String>();
-			List<String> tempUnMatch = new ArrayList<String>();
-			List<String> tempNameList = new ArrayList<String>();
-			List<PortClass> portList = adapterVisitor.getPortList();
-			//获取adapter中所有Port name 并用一定格式保存
-			Iterator<PortClass> iteratorPort = portList.iterator();
-			while(iteratorPort.hasNext()) {
-				PortClass tempPort = iteratorPort.next();
-				String tempName = creatName(tempPort.getPortName());
-				tempNameList.add(tempName);
-			}
-			//check
-			Iterator<String> iteratorName = taPortList.iterator();
-			while(iteratorName.hasNext()) {
-				String tempName = iteratorName.next();
-				if(tempNameList.contains(tempName)) {
-					tempMatch.add(taPathList.get(tempName));
-				}else {
-					tempUnMatch.add(taPathList.get(tempName));
-				}	
-			}
-			//
-			matchList.put(StringUtil.adapter, tempMatch);
-			unMatchList.put(StringUtil.adapter, tempUnMatch);
-		}
-			
-		if(wireListVisitor.getUUIDList().contains(stationVisitor.getUUID())){
-			List<String> tempMatch = new ArrayList<String>();
-			List<String> tempUnMatch = new ArrayList<String>();
-			List<String> tempNameList = new ArrayList<String>();
-			List<PortClass> portList = stationVisitor.getPortList();
-			//获取station中所有Port name 并用一定格式保存
-			Iterator<PortClass> iteratorPort = portList.iterator();
-			while(iteratorPort.hasNext()) {
-				PortClass tempPort = iteratorPort.next();
-				String tempName = creatName(tempPort.getPortName());
-				tempNameList.add(tempName);
-			}
-			//check
-			Iterator<String> iteratorName = tsPortList.iterator();
-			while(iteratorName.hasNext()) {
-				String tempName = iteratorName.next();
-				if(tempNameList.contains(tempName)) {
-					tempMatch.add(tsPathList.get(tempName));
-				}else {
-					tempUnMatch.add(tsPathList.get(tempName));
-				}	
-			}
-			//
-			matchList.put(StringUtil.station, tempMatch);
-			unMatchList.put(StringUtil.station, tempUnMatch);
-		}	
-	}
-		
-	private String creatName(String portname) {
-		String tempName = "[@name=\'" + portname + "\']";
-		return tempName;
-	}
+	/*
+	*private String creatName(String portname) {
+	*	String tempName = "[@name=\'" + portname + "\']";
+	*	return tempName;
+	*}
+	*/
 	
 	private org.dom4j.Document readXML(String fileDir) {
 		File file = new File(fileDir);
@@ -205,8 +224,160 @@ public class WireListReader extends InfoWrite{
 		return document;
 	}
 	
+	private List<Element> getElementWithNamespace(Element root, String tagName, String namespace){
+		List<Element> list = new ArrayList<Element>();
+		List<Element> tagList = root.elements(tagName);
+		for(Element element:tagList) {
+			if(element.getNamespacePrefix().equals(namespace)) {
+				list.add(element);
+			}
+		}
+		return list;
+	}
+	
+	private boolean checkPath(String path) {
+		String[] dirs = path.split("/");
+		String[] dir = dirs[1].split(":");
+		if (dir.length == 1) {
+			if (dir[0].equals(StringUtil.adapter)) {
+				return checkNetWorkListInFile(path, FileType.adapter);
+			} else if (dir[0].equals(StringUtil.UUT)) {
+				return checkNetWorkListInFile(path, FileType.UUT);
+			} else if (dir[0].equals(StringUtil.station)) {
+				return checkNetWorkListInFile(path, FileType.station);
+			} else {
+				System.out.println(path + " is not exist!");
+				unExistXpath.add(path);
+			}
+		} else {
+			if (dir[1].equals(StringUtil.adapter)) {
+				return checkNetWorkListInFile(path, FileType.adapter);
+			} else if (dir[1].equals(StringUtil.UUT)) {
+				return checkNetWorkListInFile(path, FileType.UUT);
+			} else if (dir[1].equals(StringUtil.station)) {
+				return checkNetWorkListInFile(path, FileType.station);
+			} else {
+				System.out.println(path + " is not exist!");
+				unExistXpath.add(path);
+			}
+		}
+		return false;
+	}
+	
+	private boolean checkNetWorkListInFile(String path, FileType fileType) {
+		// String dir = "";
+		List<Element> list = null;
+		switch (fileType) {
+		case adapter:
+			if (adapterDocument != null) {
+				try {
+					list = adapterDocument.selectNodes(path);
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("############" + fileType.toString() + "#############");
+					System.out.println(e);
+					System.out.println(path + " is not standard XPath!");
+					// error += (path + " is not exist!\n");
+					// writeError(path + " is not exist!");
+
+					unExistXpath.add(path);
+					// addErrorItemWithoutEnter(testItem[1], (path + " is not
+					// exist!\n"));
+				}
+
+			} else {
+
+			}
+			break;
+		case UUT:
+			if (uutDocument != null) {
+				try {
+					list = uutDocument.selectNodes(path);
+				} catch (Exception e) {
+					// TODO: handle exception
+
+					System.out.println("############" + fileType.toString() + "#############");
+					System.out.println(e);
+					System.out.println(path + " is not standard XPath!");
+					// error += (path + " is not exist!\n");
+					// writeError(path + " is not exist!");
+					unExistXpath.add(path);
+					// addErrorItemWithoutEnter(testItem[1], (path + " is not
+					// exist!\n"));
+				}
+
+			} else {
+
+			}
+			break;
+		case station:
+			if (stationDocument != null) {
+				try {
+					list = stationDocument.selectNodes(path);
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("############" + fileType.toString() + "#############");
+					System.out.println(e);
+					System.out.println(path + " is not standard XPath!");
+					unExistXpath.add(path);
+				}
+			} else {
+
+			}
+			break;
+		default:
+			break;
+		}
+		if (list != null) {
+			if (list.size() == 0) {
+				System.out.println("############" + fileType.toString() + "#############");
+				System.out.println(path + " is not exist!");
+				unExistXpath.add(path);
+			} else {
+				// TODO link check
+				System.out.println("********************" + path + "*************************");
+				return true;
+			}
+		} else {
+
+		}
+		return false;
+	}
+	
+	private void write2TXT() {
+		File dataFlie = new File(fileName + "检测结果文件.txt");
+		if (dataFlie.exists()) {
+			dataFlie.delete();
+		} else {
+			try {
+				dataFlie.createNewFile();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(dataFlie);
+		} catch (FileNotFoundException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		try {
+			fos.write(infoTxt.getBytes());
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		try {
+			fos.close();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+	}
 	public String getInfoHTML() {
+		// TODO 自动生成的方法存根
 		return infoHTML;
 	}
-
 }

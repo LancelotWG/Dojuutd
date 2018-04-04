@@ -111,6 +111,7 @@ public class ConfigurationReader extends InfoWrite {
 		getUUID();
 		getFilesUUID();
 		checkUUIDs();
+		//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 		infoWriteWord(fileName);
 		write2TXT();
 	}

@@ -43,7 +43,7 @@ public class WireListReader extends InfoWrite implements XPathStandard{
 		String stationPath = "C:\\Users\\王宇磊\\eclipse-workspace\\HHH\\测评UUT-V8\\test\\TestStationDescriptionConvert_1_测评UUT_5_5.xml";
 		String adapterPath = "C:\\Users\\王宇磊\\eclipse-workspace\\HHH\\测评UUT-V8\\test\\TestAdapterConvert_1_测评UUT_5_测评接口适配器1_11.xml";
 		WireListReader test = new WireListReader();
-		test.Virtualmain(wireListPath, uutPath, stationPath, adapterPath);
+		test.Virtualmain(wireListPath, uutPath, /*stationPath,*/ adapterPath);
 	}
 	/************************************************测试***************************************************************/
 	
@@ -51,13 +51,13 @@ public class WireListReader extends InfoWrite implements XPathStandard{
 		//testItem.add("文件匹配检测");
 		testItem.add("XPath格式正确性检测");
 		testItem.add("XPath路径引用正确及匹配性检查");
-		fileName = "111";
+		fileName = "WireListTest";
 	}
 	
-	public void Virtualmain(String wirelistpath, String uutpath, String stationpath, String adapterpath) {
+	public void Virtualmain(String wirelistpath, String uutpath, /*String stationpath,*/ String adapterpath) {
 		wireListDocument = readXML(wirelistpath);
 		uutDocument = readXML(uutpath);
-		stationDocument = readXML(stationpath);
+		/*stationDocument = readXML(stationpath);*/
 		adapterDocument = readXML(adapterpath);
 		
 		initInfoMap();
@@ -310,7 +310,7 @@ public class WireListReader extends InfoWrite implements XPathStandard{
 
 			}
 			break;
-		case station:
+		/*case station:
 			if (stationDocument != null) {
 				try {
 					list = stationDocument.selectNodes(path);
@@ -324,7 +324,7 @@ public class WireListReader extends InfoWrite implements XPathStandard{
 			} else {
 
 			}
-			break;
+			break;*/
 		default:
 			break;
 		}

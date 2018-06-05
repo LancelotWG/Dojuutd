@@ -340,7 +340,7 @@ public class ATMLTest implements FileTypeValidation {
 			} else if (testItem.equals(StringUtil.wireListTest)) {
 				checkPanel.add(wireListPanel);
 				checkPanel.add(UUTPanel);
-				checkPanel.add(stationPanel);
+				/*checkPanel.add(stationPanel);*/
 				checkPanel.add(adapterPanel);
 				checkPanel.add(xmlSpyPanel);
 				checkPanel.add(startPanel);
@@ -543,13 +543,13 @@ public class ATMLTest implements FileTypeValidation {
 				}
 			} else if (testItem.equals(StringUtil.wireListTest)) {
 				if (fileUUTDir.getText().equals("") || fileAdapterDir.getText().equals("")
-						|| fileStationDir.getText().equals("") ||fileWireListDir.getText().equals("") 
+						/*|| fileStationDir.getText().equals("")*/ ||fileWireListDir.getText().equals("") 
 						|| fileXmlSpyDir.getText().equals("")) {
 					JOptionPane.showMessageDialog(f, "请确保路径填充完整！", "警告", JOptionPane.WARNING_MESSAGE);
 				} else {
 
 					StartXmlSpy(fileXmlSpyDir.getText(), fileUUTDir.getText(), fileAdapterDir.getText(),
-							fileStationDir.getText(), fileWireListDir.getText());
+							/*fileStationDir.getText(), */fileWireListDir.getText());
 				}
 			} 
 
@@ -617,7 +617,7 @@ public class ATMLTest implements FileTypeValidation {
 				}
 			} else if (testItem.equals(StringUtil.wireListTest)) {
 				if (fileUUTDir.getText().equals("") || fileAdapterDir.getText().equals("")
-						|| fileStationDir.getText().equals("") ||fileWireListDir.getText().equals("") 
+						/*|| fileStationDir.getText().equals("")*/ ||fileWireListDir.getText().equals("") 
 						|| fileXmlSpyDir.getText().equals("")) {
 					JOptionPane.showMessageDialog(f, "请确保路径填充完整！", "警告", JOptionPane.WARNING_MESSAGE);
 				} else {
@@ -892,7 +892,7 @@ public class ATMLTest implements FileTypeValidation {
 	
 	private String wireListTest() {
 		WireListReader WireListReader = new WireListReader();
-		WireListReader.Virtualmain(fileWireListDir.getText(), fileUUTDir.getText(), fileStationDir.getText(), fileAdapterDir.getText());
+		WireListReader.Virtualmain(fileWireListDir.getText(), fileUUTDir.getText(), /*fileStationDir.getText(), */fileAdapterDir.getText());
 		return WireListReader.getInfoHTML();
 	}
 

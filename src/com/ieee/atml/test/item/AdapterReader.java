@@ -37,7 +37,7 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 	// "(?:\\/(?:[a-zA-Z]{0,}:){0,1}[a-zA-Z]{0,}(?:(?:\\/){0,1}\\[@[a-zA-Z]{0,}=(['\"])[\\u4e00-\\u9fa5\\w\\+-]{0,}\\1\\]){0,}){1,}";
 	// private static final String[] testItem = { "XPath路径标准检测", "XPath路径可达性检测",
 	// "Adapter通路检测" };
-
+	
 	private List<ArrayList<String>> netWorkList = new ArrayList<>();
 	private List<ArrayList<String>> errorNetWorkList = new ArrayList<>();
 	private List<ArrayList<String>> netWorkLinks = new ArrayList<>();
@@ -498,33 +498,33 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 		}
 		// writeInfo("##############Adapter通路检测###############");
 		WriteTestItem1(testItem.get(5));
-		WriteNormalInfoWithoutEnter(testItem.get(5), "Network连接节点总数为：");
-		WriteBoldInfo(testItem.get(5), netWorkList.size() + "对");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "Network连接节点总数为：");
+		WriteBoldInfoI(testItem.get(5), netWorkList.size() + "对");
 		ArrayList<ArrayList<String>> notUnique = checkUnique();
-		WriteNormalInfoWithoutEnter(testItem.get(5), "已连接的TestStation，UUTDescription总数为：");
-		WriteBoldInfo(testItem.get(5), netWorkLinks.size() + "对");
-		WriteNormalInfoWithoutEnter(testItem.get(5), "重复连接的TestStation，UUTDescription总数为：");
-		WriteBoldInfo(testItem.get(5), notUnique.size() + "对");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "已连接的TestStation，UUTDescription总数为：");
+		WriteBoldInfoI(testItem.get(5), netWorkLinks.size() + "对");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "重复连接的TestStation，UUTDescription总数为：");
+		WriteBoldInfoI(testItem.get(5), notUnique.size() + "对");
 		if (notUnique.size() > 0) {
-			WriteNormalInfo(testItem.get(5), "重复连接的TestStation，UUTDescription分别为：");
+			WriteNormalInfoS(testItem.get(5), "重复连接的TestStation，UUTDescription分别为：");
 			for (Iterator iterator = notUnique.iterator(); iterator.hasNext();) {
 				ArrayList<String> arrayList = (ArrayList<String>) iterator.next();
 				WriteTestItem2(testItem.get(5), "连接对");
-				WriteErrorInfo(testItem.get(5), arrayList.get(0));
-				WriteErrorInfo(testItem.get(5), arrayList.get(1));
-				WriteErrorInfo(testItem.get(5), "出现" + arrayList.get(2) + "次");
+				WriteError2Info(testItem.get(5), arrayList.get(0));
+				WriteError2Info(testItem.get(5), arrayList.get(1));
+				WriteError2Info(testItem.get(5), "出现" + arrayList.get(2) + "次");
 			}
 		}
 		for (Iterator iterator = tempNetWorkLinks.iterator(); iterator.hasNext();) {
 			ArrayList<String> arrayList = (ArrayList<String>) iterator.next();
 			errorNetWorkList.remove(arrayList);
 		}
-		WriteNormalInfoWithoutEnter(testItem.get(5), "已与TestStation，UUTDescription建立连接的Network接节点总数为：");
-		WriteBoldInfo(testItem.get(5), (netWorkList.size() - errorNetWorkList.size()) + "对");
-		WriteNormalInfoWithoutEnter(testItem.get(5), "未与TestStation，UUTDescription建立连接的Network节点总数为：");
-		WriteBoldInfo(testItem.get(5), errorNetWorkList.size() + "对");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "已与TestStation，UUTDescription建立连接的Network接节点总数为：");
+		WriteBoldInfoI(testItem.get(5), (netWorkList.size() - errorNetWorkList.size()) + "对");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "未与TestStation，UUTDescription建立连接的Network节点总数为：");
+		WriteBoldInfoI(testItem.get(5), errorNetWorkList.size() + "对");
 		if (errorNetWorkList.size() > 0) {
-			WriteNormalInfo(testItem.get(5), "以下为未与TestStation，UUTDescription建立连接的Network节点：");
+			WriteNormalInfoS(testItem.get(5), "以下为未与TestStation，UUTDescription建立连接的Network节点：");
 			// addErrorItem(testItem[2], "未连接节点总数为：" + errorNetWorkList.size() +
 			// "对\n以下为未连接节点：");
 			for (int i = 0; i < errorNetWorkList.size(); i++) {
@@ -537,7 +537,7 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 					String path = items.get(j);
 					System.out.println(path);
 					// writeError(path);
-					WriteErrorInfo(testItem.get(5), path);
+					WriteError1Info(testItem.get(5), path);
 					// addErrorItem(testItem[2], (path));
 				}
 			}
@@ -608,8 +608,8 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 			ConnectorClass tempCon = iterator.next();
 			// errorInfo+="节点c:ConnectorPin的connectorID属性为"+connectorId+"的数目为"+connectorNum.get(num++)+"\n";
 			// errorInfo += "Connector " + tempCon.getConID() + "上的针脚数目=";
-			WriteNormalInfoWithoutEnter(testItem.get(0), "Connector " + tempCon.getConID() + "上的针脚数目=");
-			WriteBoldInfo(testItem.get(0), tempCon.getcPins().size());
+			WriteNormalInfoWithoutEnterS(testItem.get(0), "Connector " + tempCon.getConID() + "上的针脚数目=");
+			WriteBoldInfoI(testItem.get(0), tempCon.getcPins().size() + "");
 			// addErrorItem(testItem[0],
 			// "Connector " + tempCon.getConID() + "上的针脚数目=" +
 			// tempCon.getcPins().size());
@@ -618,8 +618,8 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 
 		WriteTestItem1(testItem.get(1));
 		// errorInfo += "Port的个数=";
-		WriteNormalInfoWithoutEnter(testItem.get(1), "Port的个数=");
-		WriteBoldInfo(testItem.get(1), adapterVisitor.getPortList().size());
+		WriteNormalInfoWithoutEnterS(testItem.get(1), "Port的个数=");
+		WriteBoldInfoI(testItem.get(1), adapterVisitor.getPortList().size() + "");
 		// addErrorItem(testItem[1],"Port的个数=" + uvisitor.getPortList().size());
 		for (Iterator<ConnectorClass> iterator = adapterVisitor.getConnectorList().iterator(); iterator.hasNext();) {
 			String conID = iterator.next().getConID();
@@ -637,8 +637,8 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 			}
 
 			// errorInfo += "Port中定义的属于connector " + conID + "上的针脚数目=";
-			WriteNormalInfoWithoutEnter(testItem.get(1), "Port中定义的属于connector " + conID + "上的针脚数目=");
-			WriteBoldInfo(testItem.get(1), tempNum++);
+			WriteNormalInfoWithoutEnterS(testItem.get(1), "Port中定义的属于connector " + conID + "上的针脚数目=");
+			WriteBoldInfoI(testItem.get(1), tempNum++ + "");
 			// addErrorItem(testItem[1],"Port中定义的属于connector " + conID +
 			// "上的针脚数目=" + tempNum);
 			// fos.write(tempstr.getBytes());
@@ -651,13 +651,13 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 			List<String> pathList = adapterVisitor.getcPinpath();
 			List<String> pathList1 = adapterVisitor.getcPinpath1();
 			if (!errorPin.isEmpty()) {
-				WriteNormalInfo(testItem.get(2), "Connector上未被Port采用的针脚的XPath如下:");
+				WriteNormalInfoS(testItem.get(2), "Connector上未被Port采用的针脚的XPath如下:");
 				// addErrorItem(testItem[2],"Connector上未被Port采用的针脚的XPath如下:");
 				// fos.write(tempstr.getBytes());
 
 				for (Iterator<String> iterator = errorPin.iterator(); iterator.hasNext();) {
 					String tempID = iterator.next();
-					WriteErrorInfo(testItem.get(2),
+					WriteError2Info(testItem.get(2),
 							pathList.get(adapterVisitor.getConnectorPins().indexOf(tempID)).toString());
 					// addErrorItem(testItem[2],pathList.get(uvisitor.getConnectorPins().indexOf(tempID)).toString());
 					// errorInfo+=pathList.get(list.indexOf(tempID))+"\n";
@@ -665,11 +665,11 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 				}
 			}
 			if (!errorPin1.isEmpty()) {
-				WriteNormalInfo(testItem.get(2), "Port中定义的不属于connector中的针脚的XPath如下:");
+				WriteNormalInfoS(testItem.get(2), "Port中定义的不属于connector中的针脚的XPath如下:");
 				// addErrorItem(testItem[2],"Port中定义的不属于connector中的针脚的XPath如下:");
 				for (Iterator<String> iterator = errorPin1.iterator(); iterator.hasNext();) {
 					String tempID = iterator.next();
-					WriteErrorInfo(testItem.get(2),
+					WriteError2Info(testItem.get(2),
 							pathList1.get(adapterVisitor.getConnectorPins1().indexOf(tempID)).toString());
 					// addErrorItem(testItem[2],pathList1.get(uvisitor.getConnectorPins1().indexOf(tempID)).toString());
 					// errorInfo+=pathList1.get(list1.indexOf(tempID))+"\n";
@@ -678,7 +678,7 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 			}
 
 		} else {
-			WriteNormalInfo(testItem.get(2), "节点完全匹配！");
+			WriteNormalInfoS(testItem.get(2), "节点完全匹配！");
 			// addErrorItem(testItem[2],"节点完全匹配！");
 			// errorInfo+="节点完全匹配！\n";
 		}
@@ -810,18 +810,18 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 			}
 		}
 		if (num == 0) {
-			WriteNormalInfo(testItem.get(6), "检测通过过！");
+			WriteNormalInfoS(testItem.get(6), "检测通过过！");
 		} else {
-			WriteNormalInfoWithoutEnter(testItem.get(6), "共有错误连接对：");
-			WriteBoldInfo(testItem.get(6), num + "对");
+			WriteNormalInfoWithoutEnterS(testItem.get(6), "共有错误连接对：");
+			WriteBoldInfoI(testItem.get(6), num + "对");
 			for (Iterator iterator = netWorkLinks.iterator(); iterator.hasNext();) {
 				ArrayList<String> item = (ArrayList<String>) iterator.next();
 				ArrayList<String> error = compareUUTAndTA(item.get(0), item.get(item.size() - 1));
 				if (error.size() > 0) {
 					WriteTestItem2(testItem.get(6), "连接对");
-					WriteErrorInfo(testItem.get(6), error.get(0));
-					WriteErrorInfo(testItem.get(6), error.get(1));
-					WriteErrorInfo(testItem.get(6), error.get(2));
+					WriteError2Info(testItem.get(6), error.get(0));
+					WriteError2Info(testItem.get(6), error.get(1));
+					WriteError2Info(testItem.get(6), error.get(2));
 				} else {
 
 				}
@@ -838,7 +838,7 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 		adapterDocument = readXML(adapterDir, StringUtil.adapter);
 		stationDocument = readXML(stationDir, StringUtil.station);
 		initInfoMap();
-		WriteTxtAndHTMLOnly("检测完成，结果如下:");
+		WriteTestItem0("检测结果");
 		checkPort();
 		XMLNetWorkList2NetWorkList();
 		System.out.println(netWorkList.size());
@@ -847,6 +847,7 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 		//extractNetworkLink();
 		//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 		//checkPortTypeAndFlow();
+		addTestResult();
 		write2TXT();
 
 		for (int i = 0; i < netWorkLinks.size(); i++) {
@@ -893,7 +894,7 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 		// writeInfo("#################XPath standard
 		// check#####################");
 		WriteTestItem1(testItem.get(3));
-		WriteNormalInfoWithoutEnter(testItem.get(3), "待检测的XPath路径个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(3), "待检测的XPath路径个数为：");
 		// addErrorItemWithoutEnter(testItem[0], "待检测的XPath路径个数为：");
 		int textPathNum = 0;
 		for (Iterator<Element> iterators = network.iterator(); iterators.hasNext();) {
@@ -936,26 +937,26 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 			}
 
 		}
-		WriteBoldInfo(testItem.get(3), textPathNum);
+		WriteBoldInfoI(testItem.get(3), textPathNum + "");
 		// addErrorItem(testItem[0], textPathNum + "");
 
-		WriteNormalInfoWithoutEnter(testItem.get(3), "标准的XPath路径个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(3), "标准的XPath路径个数为：");
 		// addErrorItemWithoutEnter(testItem[0], "标准的XPath路径个数为：");
 
-		WriteBoldInfo(testItem.get(3), standardXpath.size() + "");
+		WriteBoldInfoI(testItem.get(3), standardXpath.size() + "");
 		// addErrorItem(testItem[0], standardXpath.size() + "");
 
-		WriteNormalInfoWithoutEnter(testItem.get(3), "不标准的XPath路径个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(3), "不标准的XPath路径个数为：");
 		// addErrorItemWithoutEnter(testItem[0], "不标准的XPath路径个数为：");
 
-		WriteBoldInfo(testItem.get(3), unStandardXpath.size() + "");
+		WriteBoldInfoI(testItem.get(3), unStandardXpath.size() + "");
 		// addErrorItem(testItem[0], unStandardXpath.size() + "");
 		if (unStandardXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(3), "不标准的XPath路径为：");
+			WriteNormalInfoS(testItem.get(3), "不标准的XPath路径为：");
 			// addErrorItem(testItem[0], "不标准的XPath路径为：");
 			for (int i = 0; i < unStandardXpath.size(); i++) {
 				String unstandardXpath = unStandardXpath.get(i);
-				WriteErrorInfo(testItem.get(3), unstandardXpath);
+				WriteError1Info(testItem.get(3), unstandardXpath);
 				// addErrorItem(testItem[0], unstandardXpath);
 			}
 		}
@@ -989,25 +990,25 @@ public class AdapterReader extends InfoWrite implements XPathStandard, CompareCo
 				}
 			}
 		}
-		WriteNormalInfoWithoutEnter(testItem.get(4), "标准的XPath路径中可达路径的个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(4), "标准的XPath路径中可达路径的个数为：");
 		// addErrorItemWithoutEnter(testItem[1], "标准的XPath路径中可达路径的个数为：");
 
-		WriteBoldInfo(testItem.get(4), (standardXpath.size() - unExistXpath.size()) + "");
+		WriteBoldInfoI(testItem.get(4), (standardXpath.size() - unExistXpath.size()) + "");
 		// addErrorItem(testItem[1], (standardXpath.size() -
 		// unExistXpath.size()) + "");
 
-		WriteNormalInfoWithoutEnter(testItem.get(4), "标准的XPath路径中不可达路径的个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(4), "标准的XPath路径中不可达路径的个数为：");
 		// addErrorItemWithoutEnter(testItem[1], "标准的XPath路径中不可达路径的个数为：");
 
-		WriteBoldInfo(testItem.get(4), unExistXpath.size() + "");
+		WriteBoldInfoI(testItem.get(4), unExistXpath.size() + "");
 		// addErrorItem(testItem[1], unExistXpath.size() + "");
 
 		if (unExistXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(4), "标准的XPath路径中不可达路径如下所示：");
+			WriteNormalInfoS(testItem.get(4), "标准的XPath路径中不可达路径如下所示：");
 			// addErrorItem(testItem[1], "标准的XPath路径中不可达路径如下所示：");
 			for (int i = 0; i < unExistXpath.size(); i++) {
 				String unstandardXpath = unExistXpath.get(i);
-				WriteErrorInfo(testItem.get(4), unstandardXpath);
+				WriteError2Info(testItem.get(4), unstandardXpath);
 				// addErrorItem(testItem[1], unstandardXpath);
 			}
 		}

@@ -108,27 +108,27 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 		// TODO 自动生成的方法存根
 		WriteTestItem1(testItem.get(6));
 		// errorInfo+="待检测的XPath路径个数为：";
-		WriteNormalInfoWithoutEnter(testItem.get(6), "Station文件共存在有效仪器：");
+		WriteNormalInfoWithoutEnterS(testItem.get(6), "Station文件共存在有效仪器：");
 		// addErrorItemWithoutEnter("Station文件共存在仪器：");
-		WriteBoldInfo(testItem.get(6), instDocIDXpathMaps.size() + "个");
+		WriteBoldInfoI(testItem.get(6), instDocIDXpathMaps.size() + "个");
 		// addErrorItem(testItem[4], instDocIDXpathMaps.size() + "个");
 		
 		
 		
 		
 		if(unExistXFile.size() > 0){
-			WriteErrorInfo(testItem.get(6), "共有" + unExistXFile.size() + "仪器文件路径错误");
-			WriteNormalInfo(testItem.get(6), "仪器文件路径错误的仪器documentId为：");
+			WriteError2Info(testItem.get(6), "共有" + unExistXFile.size() + "仪器文件路径错误");
+			WriteNormalInfoS(testItem.get(6), "仪器文件路径错误的仪器documentId为：");
 		}else{
-			WriteNormalInfo(testItem.get(6), "仪器文件路径完全正确");
+			WriteNormalInfoS(testItem.get(6), "仪器文件路径完全正确");
 		}
 		for (int i = 0; i < unExistXFile.size(); i++) {
 			ArrayList<String> unExistXFileItem = unExistXFile.get(i);
-			WriteBoldInfo(testItem.get(6), unExistXFileItem.get(0));
+			WriteBoldInfoS(testItem.get(6), unExistXFileItem.get(0));
 		}
 		
 		WriteTestItem2(testItem.get(6), "仪器文件XPath路径检测");
-		WriteNormalInfoWithoutEnter(testItem.get(6), "待检测的XPath路径个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(6), "待检测的XPath路径个数为：");
 		
 		// addErrorItem(testItem[4], "---------Xpath Standard检测--------");
 		Iterator iter1 = instDocIDXpathMaps.entrySet().iterator();
@@ -184,20 +184,20 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 			}
 
 		}
-		WriteBoldInfo(testItem.get(6), num);
+		WriteBoldInfoI(testItem.get(6), num + "");
 		WriteTestItem2(testItem.get(6), "XPath格式正确性检测");
 		// errorInfo+="标准的XPath路径个数为：";
-		WriteNormalInfoWithoutEnter(testItem.get(6), "标准的XPath路径个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(6), "标准的XPath路径个数为：");
 		// addErrorItemWithoutEnter(testItem[4], "标准的XPath路径个数为：");
-		WriteBoldInfo(testItem.get(6), standardXpath.size() + "");
+		WriteBoldInfoI(testItem.get(6), standardXpath.size() + "");
 		// addErrorItem(testItem[4], standardXpath.size() + "");
 		// errorInfo+="不标准的XPath路径个数为：";
-		WriteNormalInfoWithoutEnter(testItem.get(6), "不标准的XPath路径个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(6), "不标准的XPath路径个数为：");
 		// addErrorItemWithoutEnter(testItem[4], "标准的XPath路径个数为：");
-		WriteBoldInfo(testItem.get(6), unStandardXpath.size() + "");
+		WriteBoldInfoI(testItem.get(6), unStandardXpath.size() + "");
 		// addErrorItem(testItem[4], unStandardXpath.size() + "");
 		if (unStandardXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(6), "不标准的XPath路径为：");
+			WriteNormalInfoS(testItem.get(6), "不标准的XPath路径为：");
 			// addErrorItemWithoutEnter(testItem[4], "不标准的XPath路径为：");
 			Iterator errorIter1 = unStandardXpath.iterator();
 			while (errorIter1.hasNext()) {
@@ -205,10 +205,10 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 				Iterator iter11 = xpath1.entrySet().iterator();
 				while (iter11.hasNext()) {
 					Map.Entry<String, String> tempEntry = (Map.Entry<String, String>) iter11.next();
-					WriteErrorInfo(testItem.get(6), "DocumentID=" + tempEntry.getKey());
+					WriteError1Info(testItem.get(6), "DocumentID=" + tempEntry.getKey());
 					// addErrorItem(testItem[4], "DocumentID=" +
 					// tempEntry.getKey());
-					WriteErrorInfo(testItem.get(6), "XPath=" + tempEntry.getValue());
+					WriteError1Info(testItem.get(6), "XPath=" + tempEntry.getValue());
 					// addErrorItem(testItem[4], "XPath=" +
 					// tempEntry.getValue());
 				}
@@ -288,18 +288,18 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 		}
 
 		// errorInfo+="标准的XPath路径中可达路径的个数为：";
-		WriteNormalInfoWithoutEnter(testItem.get(6), "标准的XPath路径中可达路径的个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(6), "标准的XPath路径中可达路径的个数为：");
 		// addErrorItemWithoutEnter(testItem[4], "标准的XPath路径中可达路径的个数为：");
-		WriteBoldInfo(testItem.get(6), (standardXpath.size() - unExistXpath.size()) + "");
+		WriteBoldInfoI(testItem.get(6), (standardXpath.size() - unExistXpath.size()) + "");
 		// addErrorItem(testItem[4], (standardXpath.size() -
 		// unExistXpath.size()) + "");
 		// errorInfo+="标准的XPath路径中不可达路径的个数为：";
-		WriteNormalInfoWithoutEnter(testItem.get(6), "标准的XPath路径中不可达路径的个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(6), "标准的XPath路径中不可达路径的个数为：");
 		// addErrorItemWithoutEnter(testItem[4], "标准的XPath路径中不可达路径的个数为：");
-		WriteBoldInfo(testItem.get(6), unExistXpath.size() + "");
+		WriteBoldInfoI(testItem.get(6), unExistXpath.size() + "");
 		// addErrorItem(testItem[4], unExistXpath.size() + "");
 		if (unExistXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(6), "标准的XPath路径中不可达路径如下所示：");
+			WriteNormalInfoS(testItem.get(6), "标准的XPath路径中不可达路径如下所示：");
 			// addErrorItem(testItem[4], "标准的XPath路径中不可达路径如下所示：");
 			Iterator errorIter2 = unExistXpath.iterator();
 			while (errorIter2.hasNext()) {
@@ -307,10 +307,10 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 				Iterator iter11 = xpath1.entrySet().iterator();
 				while (iter11.hasNext()) {
 					Map.Entry<String, String> tempEntry = (Map.Entry<String, String>) iter11.next();
-					WriteErrorInfo(testItem.get(6), "DocumentID=" + tempEntry.getKey());
+					WriteError2Info(testItem.get(6), "DocumentID=" + tempEntry.getKey());
 					// addErrorItem(testItem[4], "DocumentID=" +
 					// tempEntry.getKey());
-					WriteErrorInfo(testItem.get(6), "XPath=" + tempEntry.getValue());
+					WriteError2Info(testItem.get(6), "XPath=" + tempEntry.getValue());
 					// addErrorItem(testItem[4], "XPath=" +
 					// tempEntry.getValue());
 				}
@@ -426,7 +426,7 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 			// String tempstr="**********Port及其管教connectorPin**********\n";
 			// fos.write(tempstr.getBytes());
 			// errorInfo+="检测完成，结果如下：\n";
-			WriteTxtAndHTMLOnly("检测完成，结果如下:");
+			WriteTestItem0("检测结果");
 			// errorInfo+="**********Port及其管脚connectorPin**********\n";
 			String tempStr = tsVisitor.getPortList().size() + "";
 			/*WriteTestItem1(testItem.get(0));
@@ -470,8 +470,8 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 				ConnectorClass tempCon = iterator.next();
 				// errorInfo+="节点c:ConnectorPin的connectorID属性为"+connectorId+"的数目为"+connectorNum.get(num++)+"\n";
 				//errorInfo += "Connector " + tempCon.getConID() + "上的针脚数目=";
-				WriteNormalInfoWithoutEnter(testItem.get(0), "Connector " + tempCon.getConID() + "上的针脚数目=");
-				WriteBoldInfo(testItem.get(0), tempCon.getcPins().size());
+				WriteNormalInfoWithoutEnterS(testItem.get(0), "Connector " + tempCon.getConID() + "上的针脚数目=");
+				WriteBoldInfoI(testItem.get(0), tempCon.getcPins().size() + "");
 				//addErrorItem(testItem[0],
 				//		"Connector " + tempCon.getConID() + "上的针脚数目=" + tempCon.getcPins().size());
 				// fos.write(tempstr.getBytes());
@@ -479,8 +479,8 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 
 			WriteTestItem1(testItem.get(1));
 			//errorInfo += "Port的个数=";
-			WriteNormalInfoWithoutEnter(testItem.get(1), "Port的个数=");
-			WriteBoldInfo(testItem.get(1), tsVisitor.getPortList().size());
+			WriteNormalInfoWithoutEnterS(testItem.get(1), "Port的个数=");
+			WriteBoldInfoI(testItem.get(1), tsVisitor.getPortList().size() + "");
 			//addErrorItem(testItem[1],"Port的个数=" +  uvisitor.getPortList().size());
 			for (Iterator<ConnectorClass> iterator = tsVisitor.getConnectorList().iterator(); iterator.hasNext();) {
 				String conID = iterator.next().getConID();
@@ -498,8 +498,8 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 				}
 
 				//errorInfo += "Port中定义的属于connector " + conID + "上的针脚数目=";
-				WriteNormalInfoWithoutEnter(testItem.get(1), "Port中定义的属于connector " + conID + "上的针脚数目=");
-				WriteBoldInfo(testItem.get(1), tempNum++);
+				WriteNormalInfoWithoutEnterS(testItem.get(1), "Port中定义的属于connector " + conID + "上的针脚数目=");
+				WriteBoldInfoI(testItem.get(1), tempNum++ + "");
 				//addErrorItem(testItem[1],"Port中定义的属于connector " + conID + "上的针脚数目=" + tempNum);
 				// fos.write(tempstr.getBytes());
 			}
@@ -512,24 +512,24 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 				List<String> pathList = tsVisitor.getcPinpath();
 				List<String> pathList1 = tsVisitor.getcPinpath1();
 				if (!errorPin.isEmpty()) {
-					WriteNormalInfo(testItem.get(2), "Connector上未被Port采用的针脚的XPath如下:");
+					WriteNormalInfoS(testItem.get(2), "Connector上未被Port采用的针脚的XPath如下:");
 					//addErrorItem(testItem[2],"Connector上未被Port采用的针脚的XPath如下:");
 					// fos.write(tempstr.getBytes());
 
 					for (Iterator<String> iterator = errorPin.iterator(); iterator.hasNext();) {
 						String tempID = iterator.next();
-						WriteErrorInfo(testItem.get(2), pathList.get(tsVisitor.getConnectorPins().indexOf(tempID)).toString());
+						WriteError2Info(testItem.get(2), pathList.get(tsVisitor.getConnectorPins().indexOf(tempID)).toString());
 						//addErrorItem(testItem[2],pathList.get(uvisitor.getConnectorPins().indexOf(tempID)).toString());
 						// errorInfo+=pathList.get(list.indexOf(tempID))+"\n";
 						// fos.write(tempstr.getBytes());
 					}
 				}
 				if (!errorPin1.isEmpty()) {
-					WriteNormalInfo(testItem.get(2), "Port中定义的不属于connector中的针脚的XPath如下:");
+					WriteNormalInfoS(testItem.get(2), "Port中定义的不属于connector中的针脚的XPath如下:");
 					//addErrorItem(testItem[2],"Port中定义的不属于connector中的针脚的XPath如下:");
 					for (Iterator<String> iterator = errorPin1.iterator(); iterator.hasNext();) {
 						String tempID = iterator.next();
-						WriteErrorInfo(testItem.get(2), pathList1.get(tsVisitor.getConnectorPins1().indexOf(tempID)).toString());
+						WriteError2Info(testItem.get(2), pathList1.get(tsVisitor.getConnectorPins1().indexOf(tempID)).toString());
 						//addErrorItem(testItem[2],pathList1.get(uvisitor.getConnectorPins1().indexOf(tempID)).toString());
 						// errorInfo+=pathList1.get(list1.indexOf(tempID))+"\n";
 						// fos.write(tempstr.getBytes());
@@ -537,7 +537,7 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 				}
 
 			} else {
-				WriteNormalInfo(testItem.get(2), "节点完全匹配！");
+				WriteNormalInfoS(testItem.get(2), "节点完全匹配！");
 				//addErrorItem(testItem[2],"节点完全匹配！");
 				// errorInfo+="节点完全匹配！\n";
 			}
@@ -545,18 +545,18 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 			WriteTestItem1(testItem.get(3));
 			// fos.write(tempstr.getBytes());
 			// errorInfo+="Swithc的个数为:";
-			WriteNormalInfoWithoutEnter(testItem.get(3), "Swithc的个数为:");
+			WriteNormalInfoWithoutEnterS(testItem.get(3), "Swithc的个数为:");
 			// addErrorItemWithoutEnter(testItem[1], "Swithc的个数为:");
 			tempStr = tsVisitor.getSwitchNames().size() + "";
-			WriteBoldInfo(testItem.get(3), tempStr);
+			WriteBoldInfoI(testItem.get(3), tempStr);
 			// addErrorItem(testItem[1], tempStr);
 			// fos.write(tempstr.getBytes());
 			if(tsVisitor.getSwitchNames().size() > 0){
-				WriteNormalInfo(testItem.get(3), "Swithc的名称为:");
+				WriteNormalInfoS(testItem.get(3), "Swithc的名称为:");
 				for (Iterator<String> iterator = tsVisitor.getSwitchNames().iterator(); iterator.hasNext();) {
 					String swName = iterator.next();
 					// errorInfo+=swName+"\n";
-					WriteBoldInfo(testItem.get(3), swName);
+					WriteBoldInfoS(testItem.get(3), swName);
 					// addErrorItem(testItem[1], swName);
 				}
 			}
@@ -567,19 +567,19 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 			// errorInfo+="**********Instruments**********\n";
 			WriteTestItem1(testItem.get(4));
 			// errorInfo+="Instruments的个数为:";
-			WriteNormalInfoWithoutEnter(testItem.get(4), "Instruments的个数为:");
+			WriteNormalInfoWithoutEnterS(testItem.get(4), "Instruments的个数为:");
 			// addErrorItemWithoutEnter(testItem[2], "Instruments的个数为:");
 			tempStr = tsVisitor.getInstrumentIDs().size() + "";
-			WriteBoldInfo(testItem.get(4), tempStr);
+			WriteBoldInfoI(testItem.get(4), tempStr);
 			// addErrorItem(testItem[2], tempStr);
 			// errorInfo+="Instruments的ID为:\n";
 			if( tsVisitor.getInstrumentIDs().size() > 0){
-				WriteNormalInfo(testItem.get(4), "Instruments的ID为:");
+				WriteNormalInfoS(testItem.get(4), "Instruments的ID为:");
 				// addErrorItem(testItem[2], "Instruments的ID为:");
 				for (Iterator<String> iterator = tsVisitor.getInstrumentIDs().iterator(); iterator.hasNext();) {
 					String insID = iterator.next();
 					// errorInfo+=insID+"\n";
-					WriteBoldInfo(testItem.get(4), insID);
+					WriteBoldInfoS(testItem.get(4), insID);
 					// addErrorItem(testItem[2], insID);
 				}
 			}
@@ -593,7 +593,7 @@ public class TestStationReader extends InfoWrite implements XPathStandard, Compa
 			// WriteNormalInfoWithoutEnter(errorpath);
 			// 进行Instrument检测，并将检测结果写入文件和“结果显示区”
 			TestInstrumentXpath(tsVisitor.getInstDocIDUUIDMaps(), tsVisitor.getInstDocIDXpathMaps());
-
+			addTestResult();
 			fos.write(infoTxt.getBytes());
 
 		} catch (IOException e) {

@@ -263,22 +263,22 @@ public class TestSignalReader extends InfoWrite {
 			// fos.write(tempstr.getBytes());
 			getSTDBSCErrotList(tsigVisitor.getSignalList());
 			// errorInfo+="检测完成，结果如下：\n";
-			WriteTxtAndHTMLOnly("检测完成，结果如下：");
+			WriteTestItem0("检测结果");
 			// errorInfo+="ATML扩展信号的个数为：";
 			WriteTestItem1(testItem.get(0));
-			WriteNormalInfoWithoutEnter(testItem.get(0), "STDBSC信号的个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(0), "STDBSC信号的个数为：");
 			String tempStr = STDBSCSignals.size() + "";
-			WriteBoldInfo(testItem.get(0), tempStr);
+			WriteBoldInfoI(testItem.get(0), tempStr);
 
 			// errorInfo+="被测文件中录入的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(0), "被测文件中录入的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(0), "被测文件中录入的信号个数为：");
 			tempStr = tsigVisitor.getSignalList().size() + "";
-			WriteBoldInfo(testItem.get(0), tempStr);
+			WriteBoldInfoI(testItem.get(0), tempStr);
 
 			// errorInfo+="被测文件中属于ATML扩展信号的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(0), "被测文件中属于STDBSC信号的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(0), "被测文件中属于STDBSC信号的信号个数为：");
 			tempStr = STDBSCCorrectList.size() + "";
-			WriteBoldInfo(testItem.get(0), tempStr);
+			WriteBoldInfoI(testItem.get(0), tempStr);
 			/*if (!STDBSCCorrectList.isEmpty()) {
 
 				WriteNormalInfo(testItem.get(0), "被测文件中属于STDBSC信号的信号名称为：");
@@ -290,30 +290,30 @@ public class TestSignalReader extends InfoWrite {
 			}*/
 
 			// errorInfo+="被测文件中不属于ATML扩展信号的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(0), "被测文件中不属于STDBSC信号的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(0), "被测文件中不属于STDBSC信号的信号个数为：");
 			tempStr = STDBSCErrorList.size() + "";
-			WriteBoldInfo(testItem.get(0), tempStr);
+			WriteBoldInfoI(testItem.get(0), tempStr);
 
 			if (!STDBSCErrorList.isEmpty()) {
 				// errorInfo+="被测文件中不匹配的信号名称为：\n";
-				WriteNormalInfo(testItem.get(0), "被测文件中不属于STDBSC信号的信号名称为：");
+				WriteNormalInfoS(testItem.get(0), "被测文件中不属于STDBSC信号的信号名称为：");
 				for (Iterator iterator = STDBSCErrorList.iterator(); iterator.hasNext();) {
 					String string = (String) iterator.next();
 					// errorInfo+=string+"\n";
-					WriteBoldInfo(testItem.get(0), string);
+					WriteBoldInfoS(testItem.get(0), string);
 				}
 			}
 			
 			if ((STDBSCSignals.size() - STDBSCCorrectList.size()) > 0) {
 				// errorInfo+="被测文件中不匹配的信号名称为：\n";
-				WriteNormalInfo(testItem.get(0), "STDDSC信号文件中未被测试文件包含的信号为：");
+				WriteNormalInfoS(testItem.get(0), "STDDSC信号文件中未被测试文件包含的信号为：");
 				for (Iterator iterator = STDBSCSignals.iterator(); iterator.hasNext();) {
 					String string = (String) iterator.next();
 					// errorInfo+=string+"\n";
 					if(STDBSCCorrectList.contains(string)){
 						
 					}else{
-						WriteErrorInfo(testItem.get(0), string);
+						WriteError2Info(testItem.get(0), string);
 					}
 				}
 			}
@@ -321,19 +321,19 @@ public class TestSignalReader extends InfoWrite {
 			
 			
 			WriteTestItem1(testItem.get(1));
-			WriteNormalInfoWithoutEnter(testItem.get(1), "STDTSF信号库中信号的个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(1), "STDTSF信号库中信号的个数为：");
 			tempStr = STDTSFLibSignals.size() + "";
-			WriteBoldInfo(testItem.get(1), tempStr);
+			WriteBoldInfoI(testItem.get(1), tempStr);
 
 			// errorInfo+="被测文件中录入的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(1), "被测文件夹中录入的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(1), "被测文件夹中录入的信号个数为：");
 			tempStr = (STDTSFCorrectList.size() + STDTSFErrorList.size()) + "";
-			WriteBoldInfo(testItem.get(1), tempStr);
+			WriteBoldInfoI(testItem.get(1), tempStr);
 
 			// errorInfo+="被测文件中属于ATML扩展信号的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(1), "被测文件夹中属于STDTSF信号库的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(1), "被测文件夹中属于STDTSF信号库的信号个数为：");
 			tempStr = STDTSFCorrectList.size() + "";
-			WriteBoldInfo(testItem.get(1), tempStr);
+			WriteBoldInfoI(testItem.get(1), tempStr);
 			/*if (!STDTSFCorrectList.isEmpty()) {
 
 				WriteNormalInfo(testItem.get(1), "被测文件夹中属于STDTSF信号库的信号名称为：");
@@ -345,30 +345,30 @@ public class TestSignalReader extends InfoWrite {
 			}*/
 
 			// errorInfo+="被测文件中不属于ATML扩展信号的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(1), "被测文件夹中不属于STDTSF信号库的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(1), "被测文件夹中不属于STDTSF信号库的信号个数为：");
 			tempStr = STDTSFErrorList.size() + "";
-			WriteBoldInfo(testItem.get(1), tempStr);
+			WriteBoldInfoI(testItem.get(1), tempStr);
 
 			if (!STDTSFErrorList.isEmpty()) {
 				// errorInfo+="被测文件中不匹配的信号名称为：\n";
-				WriteNormalInfo(testItem.get(1), "被测文件夹中不属于STDTSF信号库的信号名称为：");
+				WriteNormalInfoS(testItem.get(1), "被测文件夹中不属于STDTSF信号库的信号名称为：");
 				for (Iterator iterator = STDTSFErrorList.iterator(); iterator.hasNext();) {
 					String string = (String) iterator.next();
 					// errorInfo+=string+"\n";
-					WriteBoldInfo(testItem.get(1), string);
+					WriteBoldInfoS(testItem.get(1), string);
 				}
 			}
 			
 			if ((STDTSFLibSignals.size() - STDTSFCorrectList.size()) > 0) {
 				// errorInfo+="被测文件中不匹配的信号名称为：\n";
-				WriteNormalInfo(testItem.get(1), "STDTSF信号库中未被测试文件夹包含的信号为：");
+				WriteNormalInfoS(testItem.get(1), "STDTSF信号库中未被测试文件夹包含的信号为：");
 				for (Iterator iterator = STDTSFLibSignals.iterator(); iterator.hasNext();) {
 					String string = (String) iterator.next();
 					// errorInfo+=string+"\n";
 					if(STDTSFCorrectList.contains(string)){
 						
 					}else{
-						WriteErrorInfo(testItem.get(1), string);
+						WriteError2Info(testItem.get(1), string);
 					}
 				}
 			}
@@ -376,19 +376,19 @@ public class TestSignalReader extends InfoWrite {
 			
 			
 			WriteTestItem1(testItem.get(2));
-			WriteNormalInfoWithoutEnter(testItem.get(2), "ExtTSF信号库中信号的个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(2), "ExtTSF信号库中信号的个数为：");
 			tempStr = ExtTSFLibSignals.size() + "";
-			WriteBoldInfo(testItem.get(2), tempStr);
+			WriteBoldInfoI(testItem.get(2), tempStr);
 
 			// errorInfo+="被测文件中录入的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(2), "被测文件夹中录入的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(2), "被测文件夹中录入的信号个数为：");
 			tempStr = (ExtTSFCorrectList.size() + ExtTSFErrorList.size()) + "";
-			WriteBoldInfo(testItem.get(2), tempStr);
+			WriteBoldInfoI(testItem.get(2), tempStr);
 
 			// errorInfo+="被测文件中属于ATML扩展信号的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(2), "被测文件夹中属于ExtTSF信号库的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(2), "被测文件夹中属于ExtTSF信号库的信号个数为：");
 			tempStr = ExtTSFCorrectList.size() + "";
-			WriteBoldInfo(testItem.get(2), tempStr);
+			WriteBoldInfoI(testItem.get(2), tempStr);
 			/*if (!ExtTSFCorrectList.isEmpty()) {
 
 				WriteNormalInfo(testItem.get(2), "被测文件夹中属于ExtTSF信号库的信号名称为：");
@@ -400,36 +400,37 @@ public class TestSignalReader extends InfoWrite {
 			}*/
 
 			// errorInfo+="被测文件中不属于ATML扩展信号的信号个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(2), "被测文件夹中不属于ExtTSF信号库的信号个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(2), "被测文件夹中不属于ExtTSF信号库的信号个数为：");
 			tempStr = ExtTSFErrorList.size() + "";
-			WriteBoldInfo(testItem.get(2), tempStr);
+			WriteBoldInfoI(testItem.get(2), tempStr);
 
 			if (!ExtTSFErrorList.isEmpty()) {
 				// errorInfo+="被测文件中不匹配的信号名称为：\n";
-				WriteNormalInfo(testItem.get(2), "被测文件夹中不属于ExtTSF信号库的信号名称为：");
+				WriteNormalInfoS(testItem.get(2), "被测文件夹中不属于ExtTSF信号库的信号名称为：");
 				for (Iterator iterator = ExtTSFErrorList.iterator(); iterator.hasNext();) {
 					String string = (String) iterator.next();
 					// errorInfo+=string+"\n";
-					WriteBoldInfo(testItem.get(2), string);
+					WriteBoldInfoS(testItem.get(2), string);
 				}
 			}
 			
 			if ((ExtTSFLibSignals.size() - ExtTSFCorrectList.size()) > 0) {
 				// errorInfo+="被测文件中不匹配的信号名称为：\n";
-				WriteNormalInfo(testItem.get(2), "ExtTSF信号库中未被测试文件夹包含的信号为：");
+				WriteNormalInfoS(testItem.get(2), "ExtTSF信号库中未被测试文件夹包含的信号为：");
 				for (Iterator iterator = ExtTSFLibSignals.iterator(); iterator.hasNext();) {
 					String string = (String) iterator.next();
 					// errorInfo+=string+"\n";
 					if(ExtTSFCorrectList.contains(string)){
 						
 					}else{
-						WriteErrorInfo(testItem.get(2), string);
+						WriteError2Info(testItem.get(2), string);
 					}
 				}
 			}
 			
 			//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 			// addErrorItemWithoutEnter(testItem[0], errorTxt);
+			addTestResult();
 			fos.write(infoTxt.getBytes());
 
 		} catch (IOException e) {

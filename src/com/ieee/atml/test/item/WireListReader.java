@@ -61,10 +61,10 @@ public class WireListReader extends InfoWrite implements XPathStandard{
 		adapterDocument = readXML(adapterpath);
 		
 		initInfoMap();
-		WriteTxtAndHTMLOnly("检测完成，结果如下:");
+		WriteTestItem0("检测结果");
 		
 		checkXpath();
-		
+		addTestResult();
 		write2TXT();
 		infoWriteWord(fileName);
 	}
@@ -85,7 +85,7 @@ public class WireListReader extends InfoWrite implements XPathStandard{
 		Element root = wireListDocument.getRootElement();
 		//
 		WriteTestItem1(testItem.get(0)); 
-		WriteNormalInfoWithoutEnter(testItem.get(0),"待检测的Xpath个数为：");
+		WriteNormalInfoWithoutEnterS(testItem.get(0),"待检测的Xpath个数为：");
 		int xpathNum = 0;
 		//wirelist
 		List<Element> wireList = root.elements("WireList");
@@ -168,16 +168,16 @@ public class WireListReader extends InfoWrite implements XPathStandard{
 			}
 		}
 		
-		WriteBoldInfo(testItem.get(0),xpathNum);
-		WriteNormalInfoWithoutEnter(testItem.get(0),"标准的XPath路径个数为：");
-		WriteBoldInfo(testItem.get(0),standardXpath.size());
-		WriteNormalInfoWithoutEnter(testItem.get(0), "不标准的XPath路径个数为：");
-		WriteBoldInfo(testItem.get(0),unStandardXpath.size());
+		WriteBoldInfoI(testItem.get(0),xpathNum + "");
+		WriteNormalInfoWithoutEnterS(testItem.get(0),"标准的XPath路径个数为：");
+		WriteBoldInfoI(testItem.get(0),standardXpath.size() + "");
+		WriteNormalInfoWithoutEnterS(testItem.get(0), "不标准的XPath路径个数为：");
+		WriteBoldInfoI(testItem.get(0),unStandardXpath.size() + "");
 		if (unStandardXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(0), "不标准的XPath路径为：");
+			WriteNormalInfoS(testItem.get(0), "不标准的XPath路径为：");
 			for (int i = 0; i < unStandardXpath.size(); i++) {
 				String unstandardXpath = unStandardXpath.get(i);
-				WriteErrorInfo(testItem.get(0), unstandardXpath);
+				WriteError1Info(testItem.get(0), unstandardXpath);
 			}
 		}
 		
@@ -187,15 +187,15 @@ public class WireListReader extends InfoWrite implements XPathStandard{
 			String path = standardXpath.get(j);
 			checkPath(path);
 		}
-		WriteNormalInfoWithoutEnter(testItem.get(1), "标准的XPath路径中可达路径的个数为：");
-		WriteBoldInfo(testItem.get(1), (standardXpath.size() - unExistXpath.size()) + "");
-		WriteNormalInfoWithoutEnter(testItem.get(1), "标准的XPath路径中不可达路径的个数为：");
-		WriteBoldInfo(testItem.get(1), unExistXpath.size() + "");
+		WriteNormalInfoWithoutEnterS(testItem.get(1), "标准的XPath路径中可达路径的个数为：");
+		WriteBoldInfoI(testItem.get(1), (standardXpath.size() - unExistXpath.size()) + "");
+		WriteNormalInfoWithoutEnterS(testItem.get(1), "标准的XPath路径中不可达路径的个数为：");
+		WriteBoldInfoI(testItem.get(1), unExistXpath.size() + "");
 		if (unExistXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(1), "标准的XPath路径中不可达路径如下所示：");
+			WriteNormalInfoS(testItem.get(1), "标准的XPath路径中不可达路径如下所示：");
 			for (int i = 0; i < unExistXpath.size(); i++) {
 				String unstandardXpath = unExistXpath.get(i);
-				WriteErrorInfo(testItem.get(1), unstandardXpath);
+				WriteError2Info(testItem.get(1), unstandardXpath);
 			}
 		}
 	}

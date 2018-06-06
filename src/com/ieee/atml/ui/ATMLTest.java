@@ -29,14 +29,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.ieee.atml.test.item.AdapterReader;
 import com.ieee.atml.test.item.ConfigurationReader;
@@ -168,12 +172,12 @@ public class ATMLTest implements FileTypeValidation {
 		textField.setComponentPopupMenu(popupMenu);
 	}
 
-	private void addErrorField(JFrame frame) {
+	private void addErrorField(Box frame) {
 		// 测试结果边框设置
 		Border lb = BorderFactory.createLineBorder(Color.BLACK, 1);
 		TitledBorder tb = new TitledBorder(lb, "测试结果：", TitledBorder.LEFT, TitledBorder.TOP,
 				new Font("StSong", Font.BOLD, 14), Color.BLACK);
-		errorOutput.setPreferredSize(new Dimension(730, 220));
+		errorOutput.setPreferredSize(new Dimension(800, 300));
 
 		errorOutput.setEditable(false);
 		// 设置HTML解析器
@@ -185,7 +189,7 @@ public class ATMLTest implements FileTypeValidation {
 		JPanel errorPanel = new JPanel();
 		errorPanel.setBorder(tb);
 		errorPanel.add(taJsp);
-		frame.add(errorPanel, BorderLayout.SOUTH);
+		frame.add(errorPanel);
 		errorOutput.setText("");
 	}
 
@@ -224,9 +228,19 @@ public class ATMLTest implements FileTypeValidation {
 		Box topPanel = Box.createVerticalBox();
 		topPanel.setAlignmentX(1);
 		topPanel.add(mapPanel);
-		topPanel.add(testItemPanel);
+		//topPanel.add(testItemPanel);
 
 		f.add(topPanel, BorderLayout.NORTH);
+		
+		
+		DefaultMutableTreeNode testNode = new DefaultMutableTreeNode("检测项目");
+		for (int i = 0; i < StringUtil.testItem.length; i++) {
+			testNode.add(new DefaultMutableTreeNode(StringUtil.testItem[i]));
+		}
+		
+		JTree testTree = new JTree(testNode);
+		
+		f.add(testTree,BorderLayout.WEST);
 		// configure路径布局
 		JPanel configurePanel = new JPanel();
 		addDirComponent(configurePanel, fileConfigureDirLabel, fileConfigureDir);
@@ -273,6 +287,7 @@ public class ATMLTest implements FileTypeValidation {
 		startPanel.add(startTestButton);
 		// 开始测试按钮布局（无开始检测）
 		// 测试区布局
+		Box centerBox = Box.createVerticalBox();
 		Box checkPanel = Box.createVerticalBox();
 		checkPanel.add(configurePanel);
 		checkPanel.add(UUTPanel);
@@ -289,10 +304,87 @@ public class ATMLTest implements FileTypeValidation {
 		checkPanel.add(xmlSpyPanel);
 		// checkPanel.add(startWithOutTestPanel);
 		checkPanel.add(startPanel);
-		f.add(checkPanel);
+		centerBox.add(checkPanel);
+		
 		// 信息输出框
-		addErrorField(f);
+		addErrorField(centerBox);
+		f.add(centerBox);
 		// 测试项目切换时间响应
+		
+		testTree.addTreeSelectionListener(new TreeSelectionListener() {
+			 
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) testTree
+                        .getLastSelectedPathComponent();
+ 
+                if (node == null)
+                    return;
+ 
+                Object object = node.getUserObject();
+                if (node.isLeaf()) {
+                    startTestButton.setVisible(true);
+        			String testItem = (String)object;;
+        			System.out.println(testItem);
+        			checkPanel.removeAll();
+        			clearTextField();
+        			if (testItem.equals(StringUtil.configurationTest)) {
+        				checkPanel.add(configurePanel);
+        				checkPanel.add(UUTPanel);
+        				checkPanel.add(adapterPanel);
+        				checkPanel.add(stationPanel);
+        				checkPanel.add(descriptionPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				checkPanel.add(startPanel);
+        			} else if (testItem.equals(StringUtil.UUTTest)) {
+        				checkPanel.add(UUTPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				checkPanel.add(startPanel);
+        			} else if (testItem.equals(StringUtil.adapterTest)) {
+        				checkPanel.add(UUTPanel);
+        				checkPanel.add(adapterPanel);
+        				checkPanel.add(stationPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				checkPanel.add(startPanel);
+        			} else if (testItem.equals(StringUtil.stationTest)) {
+        				checkPanel.add(stationPanel);
+        				checkPanel.add(instPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				checkPanel.add(startPanel);
+        			} else if (testItem.equals(StringUtil.testSignalTest)) {
+        				checkPanel.add(STDBSCPanel);
+        				checkPanel.add(STDTSFLibPanel);
+        				checkPanel.add(ExtTSFLibPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				checkPanel.add(startPanel);
+        			} else if (testItem.equals(StringUtil.instrumentTest)) {
+        				checkPanel.add(singleInstPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				checkPanel.add(startPanel);
+        			} else if (testItem.equals(StringUtil.testDescriptionTest)) {
+        				checkPanel.add(descriptionPanel);
+        				checkPanel.add(UUTPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				checkPanel.add(startPanel);
+        			} else if (testItem.equals(StringUtil.wireListTest)) {
+        				checkPanel.add(wireListPanel);
+        				checkPanel.add(UUTPanel);
+        				/*checkPanel.add(stationPanel);*/
+        				checkPanel.add(adapterPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				checkPanel.add(startPanel);
+        			} else if (testItem.equals(StringUtil.resultTest)) {
+        				checkPanel.add(resultPanel);
+        				checkPanel.add(xmlSpyPanel);
+        				startTestButton.setVisible(false);
+        				checkPanel.add(startPanel);
+        			}
+        			f.repaint();
+        			f.validate();
+                }
+ 
+            }
+        });
 		ActionListener changeTestItem = e -> {
 			startTestButton.setVisible(true);
 			String testItem = TestItemChooser.getSelectedItem().toString();

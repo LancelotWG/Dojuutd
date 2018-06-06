@@ -93,7 +93,7 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 			// String tempstr="**********Port及其管教connectorPin**********\n";
 			// fos.write(tempstr.getBytes());
 			// errorInfo+="检测完成，结果如下：\n";
-			WriteTxtAndHTMLOnly("检测完成，结果如下:");
+			WriteTestItem0("检测结果");
 			
 			
 			WriteTestItem1(testItem.get(0));
@@ -102,8 +102,8 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 				ConnectorClass tempCon = iterator.next();
 				// errorInfo+="节点c:ConnectorPin的connectorID属性为"+connectorId+"的数目为"+connectorNum.get(num++)+"\n";
 				//errorInfo += "Connector " + tempCon.getConID() + "上的针脚数目=";
-				WriteNormalInfoWithoutEnter(testItem.get(0), "Connector " + tempCon.getConID() + "上的针脚数目=");
-				WriteBoldInfo(testItem.get(0), tempCon.getcPins().size());
+				WriteNormalInfoWithoutEnterS(testItem.get(0), "Connector " + tempCon.getConID() + "上的针脚数目=");
+				WriteBoldInfoI(testItem.get(0), tempCon.getcPins().size() + "");
 				//addErrorItem(testItem[0],
 				//		"Connector " + tempCon.getConID() + "上的针脚数目=" + tempCon.getcPins().size());
 				// fos.write(tempstr.getBytes());
@@ -111,8 +111,8 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 
 			WriteTestItem1(testItem.get(1));
 			//errorInfo += "Port的个数=";
-			WriteNormalInfoWithoutEnter(testItem.get(1), "Port的个数=");
-			WriteBoldInfo(testItem.get(1), instVisitor.getPortList().size());
+			WriteNormalInfoWithoutEnterS(testItem.get(1), "Port的个数=");
+			WriteBoldInfoI(testItem.get(1), instVisitor.getPortList().size() + "");
 			//addErrorItem(testItem[1],"Port的个数=" +  uvisitor.getPortList().size());
 			for (Iterator<ConnectorClass> iterator = instVisitor.getConnectorList().iterator(); iterator.hasNext();) {
 				String conID = iterator.next().getConID();
@@ -130,8 +130,8 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 				}
 
 				//errorInfo += "Port中定义的属于connector " + conID + "上的针脚数目=";
-				WriteNormalInfoWithoutEnter(testItem.get(1), "Port中定义的属于connector " + conID + "上的针脚数目=");
-				WriteBoldInfo(testItem.get(1), tempNum++);
+				WriteNormalInfoWithoutEnterS(testItem.get(1), "Port中定义的属于connector " + conID + "上的针脚数目=");
+				WriteBoldInfoI(testItem.get(1), tempNum++ + "");
 				//addErrorItem(testItem[1],"Port中定义的属于connector " + conID + "上的针脚数目=" + tempNum);
 				// fos.write(tempstr.getBytes());
 			}
@@ -144,24 +144,24 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 				List<String> pathList = instVisitor.getcPinpath();
 				List<String> pathList1 = instVisitor.getcPinpath1();
 				if (!errorPin.isEmpty()) {
-					WriteNormalInfo(testItem.get(2), "Connector上未被Port采用的针脚的XPath如下:");
+					WriteNormalInfoS(testItem.get(2), "Connector上未被Port采用的针脚的XPath如下:");
 					//addErrorItem(testItem[2],"Connector上未被Port采用的针脚的XPath如下:");
 					// fos.write(tempstr.getBytes());
 
 					for (Iterator<String> iterator = errorPin.iterator(); iterator.hasNext();) {
 						String tempID = iterator.next();
-						WriteErrorInfo(testItem.get(2), pathList.get(instVisitor.getConnectorPins().indexOf(tempID)).toString());
+						WriteError2Info(testItem.get(2), pathList.get(instVisitor.getConnectorPins().indexOf(tempID)).toString());
 						//addErrorItem(testItem[2],pathList.get(uvisitor.getConnectorPins().indexOf(tempID)).toString());
 						// errorInfo+=pathList.get(list.indexOf(tempID))+"\n";
 						// fos.write(tempstr.getBytes());
 					}
 				}
 				if (!errorPin1.isEmpty()) {
-					WriteNormalInfo(testItem.get(2), "Port中定义的不属于connector中的针脚的XPath如下:");
+					WriteNormalInfoS(testItem.get(2), "Port中定义的不属于connector中的针脚的XPath如下:");
 					//addErrorItem(testItem[2],"Port中定义的不属于connector中的针脚的XPath如下:");
 					for (Iterator<String> iterator = errorPin1.iterator(); iterator.hasNext();) {
 						String tempID = iterator.next();
-						WriteErrorInfo(testItem.get(2), pathList1.get(instVisitor.getConnectorPins1().indexOf(tempID)).toString());
+						WriteError2Info(testItem.get(2), pathList1.get(instVisitor.getConnectorPins1().indexOf(tempID)).toString());
 						//addErrorItem(testItem[2],pathList1.get(uvisitor.getConnectorPins1().indexOf(tempID)).toString());
 						// errorInfo+=pathList1.get(list1.indexOf(tempID))+"\n";
 						// fos.write(tempstr.getBytes());
@@ -169,7 +169,7 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 				}
 
 			} else {
-				WriteNormalInfo(testItem.get(2), "节点完全匹配！");
+				WriteNormalInfoS(testItem.get(2), "节点完全匹配！");
 				//addErrorItem(testItem[2],"节点完全匹配！");
 				// errorInfo+="节点完全匹配！\n";
 			}
@@ -177,10 +177,10 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 			
 			WriteTestItem1(testItem.get(3));
 			// errorInfo+="待检测的XPath路径个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(3), "待检测的XPath路径个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(3), "待检测的XPath路径个数为：");
 			//addErrorItemWithoutEnter(testItem[0], "待检测的XPath路径个数为：");
 
-			WriteBoldInfo(testItem.get(3), instVisitor.getInstXPath().size() + "");
+			WriteBoldInfoI(testItem.get(3), instVisitor.getInstXPath().size() + "");
 			//addErrorItem(testItem[0], instVisitor.getInstXPath().size() + "");
 
 			for (Iterator<String> iterator = instVisitor.getInstXPath().iterator(); iterator.hasNext();) {
@@ -200,24 +200,24 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 			}
 
 			// errorInfo+="标准的XPath路径个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(3), "标准的XPath路径个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(3), "标准的XPath路径个数为：");
 			//addErrorItemWithoutEnter(testItem[0], "标准的XPath路径个数为：");
 
-			WriteBoldInfo(testItem.get(3), standardXPath.size() + "");
+			WriteBoldInfoI(testItem.get(3), standardXPath.size() + "");
 			//addErrorItem(testItem[0], standardXPath.size() + "");
 
 			// errorInfo+="不标准的XPath路径个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(3), "不标准的XPath路径个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(3), "不标准的XPath路径个数为：");
 			//addErrorItemWithoutEnter(testItem[0], "不标准的XPath路径个数为：");
 
-			WriteBoldInfo(testItem.get(3), unstandardXPath.size() + "");
+			WriteBoldInfoI(testItem.get(3), unstandardXPath.size() + "");
 			//addErrorItem(testItem[0], unstandardXPath.size() + "");
 
 			if (unstandardXPath.size() > 0) {
-				WriteNormalInfo(testItem.get(3), "不标准的XPath路径为：");
+				WriteNormalInfoS(testItem.get(3), "不标准的XPath路径为：");
 				//addErrorItem(testItem[0], "不标准的XPath路径为：");
 				for (Iterator<String> iterator = unstandardXPath.iterator(); iterator.hasNext();) {
-					WriteErrorInfo(testItem.get(3), iterator.next());
+					WriteError1Info(testItem.get(3), iterator.next());
 					//addErrorItem(testItem[0], iterator.next());
 				}
 			}
@@ -242,29 +242,30 @@ public class InstrumentReader extends InfoWrite implements XPathStandard, Compar
 			}
 
 			// errorInfo+="标准的XPath路径中可达路径的个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(4), "标准的XPath路径中可达路径的个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(4), "标准的XPath路径中可达路径的个数为：");
 			//addErrorItemWithoutEnter(testItem[1], "标准的XPath路径中可达路径的个数为：");
 
-			WriteBoldInfo(testItem.get(4), (standardXPath.size() - unExistXpath.size()) + "");
+			WriteBoldInfoI(testItem.get(4), (standardXPath.size() - unExistXpath.size()) + "");
 			//addErrorItem(testItem[0], (standardXPath.size() - unExistXpath.size()) + "");
 
 			// errorInfo+="标准的XPath路径中不可达路径的个数为：";
-			WriteNormalInfoWithoutEnter(testItem.get(4), "标准的XPath路径中不可达路径的个数为：");
+			WriteNormalInfoWithoutEnterS(testItem.get(4), "标准的XPath路径中不可达路径的个数为：");
 			//addErrorItemWithoutEnter(testItem[1], "标准的XPath路径中不可达路径的个数为：");
 
-			WriteBoldInfo(testItem.get(4), unExistXpath.size() + "");
+			WriteBoldInfoI(testItem.get(4), unExistXpath.size() + "");
 			//addErrorItem(testItem[0], unExistXpath.size() + "");
 
 			if (unExistXpath.size() > 0) {
-				WriteNormalInfo(testItem.get(4), "标准的XPath路径中不可达路径如下所示：");
+				WriteNormalInfoS(testItem.get(4), "标准的XPath路径中不可达路径如下所示：");
 				//addErrorItem(testItem[0], "标准的XPath路径中不可达路径如下所示：");
 				Iterator<String> errorIter2 = unExistXpath.iterator();
 				while (errorIter2.hasNext()) {
-					WriteErrorInfo(testItem.get(4), errorIter2.next());
+					WriteError2Info(testItem.get(4), errorIter2.next());
 					//addErrorItem(testItem[0], errorIter2.next());
 				}
 			}
 			//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
+			addTestResult();
 			fos.write(infoTxt.getBytes());
 
 		} catch (IOException e) {

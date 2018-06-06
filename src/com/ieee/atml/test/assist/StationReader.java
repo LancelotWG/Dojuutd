@@ -158,31 +158,31 @@ public class StationReader extends InfoWrite implements XPathStandard {
 			}
 
 		}
-		WriteNormalInfoWithoutEnter(testItem.get(5), "共存在Network节点对：");
-		WriteBoldInfo(testItem.get(5), notWorklistNum + "对");
-		WriteNormalInfoWithoutEnter(testItem.get(5), "错误的XPath路径有：");
-		WriteBoldInfo(testItem.get(5), errorXpath.size() + "个");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "共存在Network节点对：");
+		WriteBoldInfoI(testItem.get(5), notWorklistNum + "对");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "错误的XPath路径有：");
+		WriteBoldInfoI(testItem.get(5), errorXpath.size() + "个");
 		if (errorXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(5), "错误的XPath路径为：");
+			WriteNormalInfoS(testItem.get(5), "错误的XPath路径为：");
 			for (int i = 0; i < errorXpath.size(); i++) {
 				String errorXpath = this.errorXpath.get(i);
-				WriteErrorInfo(testItem.get(5), errorXpath);
+				WriteError1Info(testItem.get(5), errorXpath);
 			}
 		}
 		WriteTestItem2(testItem.get(5), "TestStation的XPath路径检测");
-		WriteNormalInfoWithoutEnter(testItem.get(5), "待检测的XPath路径个数为：");
-		WriteBoldInfo(testItem.get(5), textPathNum);
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "待检测的XPath路径个数为：");
+		WriteBoldInfoI(testItem.get(5), Integer.toString(textPathNum));
 		WriteTestItem2(testItem.get(5), "XPath格式正确性检测");
-		WriteNormalInfoWithoutEnter(testItem.get(5), "标准的XPath路径个数为：");
-		WriteBoldInfo(testItem.get(5), standardXpath.size() + "");
-		WriteNormalInfoWithoutEnter(testItem.get(5), "不标准的XPath路径个数为：");
-		WriteBoldInfo(testItem.get(5), unStandardXpath.size() + "");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "标准的XPath路径个数为：");
+		WriteBoldInfoI(testItem.get(5), standardXpath.size() + "");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "不标准的XPath路径个数为：");
+		WriteBoldInfoI(testItem.get(5), unStandardXpath.size() + "");
 
 		if (unStandardXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(5), "不标准的XPath路径为：");
+			WriteNormalInfoS(testItem.get(5), "不标准的XPath路径为：");
 			for (int i = 0; i < unStandardXpath.size(); i++) {
 				String unstandardXpath = unStandardXpath.get(i);
-				WriteErrorInfo(testItem.get(5), unstandardXpath);
+				WriteError1Info(testItem.get(5), unstandardXpath);
 			}
 		}
 
@@ -222,15 +222,15 @@ public class StationReader extends InfoWrite implements XPathStandard {
 				checkPath(netWorkNodes);
 			}
 		}
-		WriteNormalInfoWithoutEnter(testItem.get(5), "标准的XPath路径中可达路径的个数为：");
-		WriteBoldInfo(testItem.get(5), (standardXpath.size() - unExistXpath.size()) + "");
-		WriteNormalInfoWithoutEnter(testItem.get(5), "标准的XPath路径中不可达路径的个数为：");
-		WriteBoldInfo(testItem.get(5), unExistXpath.size() + "");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "标准的XPath路径中可达路径的个数为：");
+		WriteBoldInfoI(testItem.get(5), (standardXpath.size() - unExistXpath.size()) + "");
+		WriteNormalInfoWithoutEnterS(testItem.get(5), "标准的XPath路径中不可达路径的个数为：");
+		WriteBoldInfoI(testItem.get(5), unExistXpath.size() + "");
 		if (unExistXpath.size() > 0) {
-			WriteNormalInfo(testItem.get(5), "标准的XPath路径中不可达路径如下所示：");
+			WriteNormalInfoS(testItem.get(5), "标准的XPath路径中不可达路径如下所示：");
 			for (int i = 0; i < unExistXpath.size(); i++) {
 				String unstandardXpath = unExistXpath.get(i);
-				WriteErrorInfo(testItem.get(5), unstandardXpath);
+				WriteError2Info(testItem.get(5), unstandardXpath);
 			}
 		}
 

@@ -107,10 +107,11 @@ public class ConfigurationReader extends InfoWrite {
 		stationDocument = readXML(stationDir, StringUtil.station);
 		testDescriptionDocument = readXML(testDescriptionDir, StringUtil.testDescription);
 		initInfoMap();
-		WriteTxtAndHTMLOnly("检测完成，结果如下:");
+		WriteTestItem0("检测结果");
 		getUUID();
 		getFilesUUID();
 		checkUUIDs();
+		addTestResult();
 		//WriteRedInfo("-----------检测通过-----------","-----------检测通过-----------");
 		infoWriteWord(fileName);
 		write2TXT();
@@ -324,22 +325,22 @@ public class ConfigurationReader extends InfoWrite {
 		checkUUID(StringUtil.station);
 		checkUUID(StringUtil.adapter);
 		checkUUID(StringUtil.testDescription);
+		//WriteTestItem1(testItem.get(0));
 		if (matchUUIDItem.size() > 0) {
-			// WriteNormalInfo("UUID检测匹配如下：");
 			for (int i = 0; i < matchUUIDItem.size(); i++) {
-				WriteNormalInfo(testItem.get(0), matchUUIDItem.get(i));
+				WriteNormalInfoS(testItem.get(0), matchUUIDItem.get(i));
 			}
 		}
 		if (unMatchUUIDItem.size() > 0) {
-			WriteNormalInfo(testItem.get(0), "UUID检测不匹配如下：");
+			WriteNormalInfoS(testItem.get(0), "UUID检测不匹配如下：");
 			for (int i = 0; i < unMatchUUIDItem.size(); i++) {
-				WriteErrorInfo(testItem.get(0), unMatchUUIDItem.get(i));
+				WriteError2Info(testItem.get(0), unMatchUUIDItem.get(i));
 			}
 		}
 		if (unExistUUIDItem.size() > 0) {
-			WriteNormalInfo(testItem.get(0), "TestConfiguration中不存在的UUID如下：");
+			WriteNormalInfoS(testItem.get(0), "TestConfiguration中不存在的UUID如下：");
 			for (int i = 0; i < unExistUUIDItem.size(); i++) {
-				WriteErrorInfo(testItem.get(0), unExistUUIDItem.get(i));
+				WriteError1Info(testItem.get(0), unExistUUIDItem.get(i));
 			}
 		}
 		// addErrorItemWithoutEnter(testItem[0], errorTxt);

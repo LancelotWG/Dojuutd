@@ -44,7 +44,7 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 		testItem.add("UUT接口中Connector描述");
 		testItem.add("UUT接口中Port描述");
 		testItem.add("Port与Connector管脚一致性检查");
-		testItem.add("Port数据流向检查");
+		//testItem.add("Port数据流向检查");
 	}
 
 	// 虚拟主函数，创建dom树等
@@ -111,11 +111,11 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 		}
 		try {
 			// String tempstr="UUID="+uvisitor.getUuid()+"\n";
-			WriteTxtAndHTMLOnly("检测完成，结果如下：");
+			WriteTestItem0("检测结果");
 			// errorInfo+="检测完成，结果如下：\n";
 
 			// errorInfo += "UUID=";
-			WriteTxtAndHTMLOnly("UUID=" + uvisitor.getUuid().toString());
+			//WriteTxtAndHTMLOnly("UUID=" + uvisitor.getUuid().toString());
 			// WriteBoldInfo(uvisitor.getUuid().toString());
 
 			// fos.write(tempstr.getBytes());
@@ -125,8 +125,8 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 				ConnectorClass tempCon = iterator.next();
 				// errorInfo+="节点c:ConnectorPin的connectorID属性为"+connectorId+"的数目为"+connectorNum.get(num++)+"\n";
 				// errorInfo += "Connector " + tempCon.getConID() + "上的针脚数目=";
-				WriteNormalInfoWithoutEnter(testItem.get(0), "Connector " + tempCon.getConID() + "上的针脚数目=");
-				WriteBoldInfo(testItem.get(0), tempCon.getcPins().size());
+				WriteNormalInfoWithoutEnterS(testItem.get(0), "Connector " + tempCon.getConID() + "上的针脚数目=");
+				WriteBoldInfoI(testItem.get(0), tempCon.getcPins().size() + "");
 				// addErrorItem(testItem[0],
 				// "Connector " + tempCon.getConID() + "上的针脚数目=" +
 				// tempCon.getcPins().size());
@@ -135,8 +135,8 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 
 			WriteTestItem1(testItem.get(1));
 			// errorInfo += "Port的个数=";
-			WriteNormalInfoWithoutEnter(testItem.get(1), "Port的个数=");
-			WriteBoldInfo(testItem.get(1), uvisitor.getPortList().size());
+			WriteNormalInfoWithoutEnterS(testItem.get(1), "Port的个数=");
+			WriteBoldInfoI(testItem.get(1), uvisitor.getPortList().size() + "");
 			// addErrorItem(testItem[1],"Port的个数=" +
 			// uvisitor.getPortList().size());
 			for (Iterator<ConnectorClass> iterator = uvisitor.getConnectorList().iterator(); iterator.hasNext();) {
@@ -155,8 +155,8 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 				}
 
 				// errorInfo += "Port中定义的属于connector " + conID + "上的针脚数目=";
-				WriteNormalInfoWithoutEnter(testItem.get(1), "Port中定义的属于connector " + conID + "上的针脚数目=");
-				WriteBoldInfo(testItem.get(1), tempNum++);
+				WriteNormalInfoWithoutEnterS(testItem.get(1), "Port中定义的属于connector " + conID + "上的针脚数目=");
+				WriteBoldInfoI(testItem.get(1), tempNum++ + "");
 				// addErrorItem(testItem[1],"Port中定义的属于connector " + conID +
 				// "上的针脚数目=" + tempNum);
 				// fos.write(tempstr.getBytes());
@@ -170,13 +170,13 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 				List<String> pathList = uvisitor.getcPinpath();
 				List<String> pathList1 = uvisitor.getcPinpath1();
 				if (!errorPin.isEmpty()) {
-					WriteNormalInfo(testItem.get(2), "Connector上未被Port采用的针脚的XPath如下:");
+					WriteNormalInfoS(testItem.get(2), "Connector上未被Port采用的针脚的XPath如下:");
 					// addErrorItem(testItem[2],"Connector上未被Port采用的针脚的XPath如下:");
 					// fos.write(tempstr.getBytes());
 
 					for (Iterator<String> iterator = errorPin.iterator(); iterator.hasNext();) {
 						String tempID = iterator.next();
-						WriteErrorInfo(testItem.get(2),
+						WriteError2Info(testItem.get(2),
 								pathList.get(uvisitor.getConnectorPins().indexOf(tempID)).toString());
 						// addErrorItem(testItem[2],pathList.get(uvisitor.getConnectorPins().indexOf(tempID)).toString());
 						// errorInfo+=pathList.get(list.indexOf(tempID))+"\n";
@@ -184,11 +184,11 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 					}
 				}
 				if (!errorPin1.isEmpty()) {
-					WriteNormalInfo(testItem.get(2), "Port中定义的不属于connector中的针脚的XPath如下:");
+					WriteNormalInfoS(testItem.get(2), "Port中定义的不属于connector中的针脚的XPath如下:");
 					// addErrorItem(testItem[2],"Port中定义的不属于connector中的针脚的XPath如下:");
 					for (Iterator<String> iterator = errorPin1.iterator(); iterator.hasNext();) {
 						String tempID = iterator.next();
-						WriteErrorInfo(testItem.get(2),
+						WriteError2Info(testItem.get(2),
 								pathList1.get(uvisitor.getConnectorPins1().indexOf(tempID)).toString());
 						// addErrorItem(testItem[2],pathList1.get(uvisitor.getConnectorPins1().indexOf(tempID)).toString());
 						// errorInfo+=pathList1.get(list1.indexOf(tempID))+"\n";
@@ -197,12 +197,12 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 				}
 
 			} else {
-				WriteNormalInfo(testItem.get(2), "管脚定义一致!");
+				WriteNormalInfoS(testItem.get(2), "管脚定义一致!");
 				// addErrorItem(testItem[2],"节点完全匹配！");
 				// errorInfo+="节点完全匹配！\n";
 			}
 
-			WriteTestItem1(testItem.get(3));
+			/*WriteTestItem1(testItem.get(3));
 			PinDenfinitionMap denfinitionMap = new PinDenfinitionMap();
 			ArrayList<ArrayList<String>> pinError = new ArrayList<>();
 			for (Iterator iterator = uvisitor.getPortList().iterator(); iterator.hasNext();) {
@@ -218,10 +218,7 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 
 					} else {
 						PinClass pin = PinDenfinitionMap.pinX1List.get(id);
-						if (/*
-							 * !tempCon.getSignalType().equals(pin.getSignalType
-							 * ()) ||
-							 */!tempCon.getSignalFlow().equals(pin.getSignalFlow())) {
+						if (!tempCon.getSignalFlow().equals(pin.getSignalFlow())) {
 							ArrayList<String> error = new ArrayList<>();
 							error.add("X1");
 							error.add(id + 1 + "");
@@ -253,10 +250,7 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 
 					} else {
 						PinClass pin = PinDenfinitionMap.pinX2List.get(id);
-						if (/*
-							 * !tempCon.getSignalType().equals(pin.getSignalType
-							 * ()) ||
-							 */!tempCon.getSignalFlow().equals(pin.getSignalFlow())) {
+						if (!tempCon.getSignalFlow().equals(pin.getSignalFlow())) {
 							ArrayList<String> error = new ArrayList<>();
 							error.add("X2");
 							error.add(id + 1 + "");
@@ -285,24 +279,24 @@ public class UUTDReader extends InfoWrite implements CompareConnectorPins {
 				}
 			}
 			if (pinError.size() > 0) {
-				WriteNormalInfoWithoutEnter(testItem.get(3), "共存在数据流向错误:");
-				WriteBoldInfo(testItem.get(3), pinError.size() + "个");
+				WriteNormalInfoWithoutEnterS(testItem.get(3), "共存在数据流向错误:");
+				WriteBoldInfoI(testItem.get(3), pinError.size() + "个");
 				for (Iterator iterator = pinError.iterator(); iterator.hasNext();) {
 					ArrayList<String> error = (ArrayList<String>) iterator.next();
-					WriteErrorInfo(testItem.get(3),
+					WriteError2Info(testItem.get(3),
 							"connectorID:" + error.get(0) + " " + "pinID:" + error.get(1) + "，");
 					if (error.get(2).equals("0") && !error.get(3).equals("0")) {
-						WriteErrorInfo(testItem.get(3), "direction属性" + error.get(3));
+						WriteError2Info(testItem.get(3), "direction属性" + error.get(3));
 					} else if (!error.get(2).equals("0") && error.get(3).equals("0")) {
-						WriteErrorInfo(testItem.get(3), "type属性" + error.get(2));
+						WriteError2Info(testItem.get(3), "type属性" + error.get(2));
 					} else if (!error.get(2).equals("0") && !error.get(3).equals("0")) {
-						WriteErrorInfo(testItem.get(3), "type属性" + error.get(2) + "，direction属性" + error.get(3));
+						WriteError2Info(testItem.get(3), "type属性" + error.get(2) + "，direction属性" + error.get(3));
 					}
 				}
 			} else {
-				WriteNormalInfo(testItem.get(3), "测试通过！");
-			}
-
+				WriteNormalInfoS(testItem.get(3), "测试通过！");
+			}*/
+			addTestResult();
 			fos.write(infoTxt.getBytes());
 			/*
 			 * tempstr="ConnectorID:PinID\n"; for (Iterator<String> iterator =
